@@ -27,23 +27,31 @@ class User implements DataBaseModel{
 
 
     function __construct($id=0,$dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image="",$isActive = 0){
-        $this->id = $id ;
-        $this->dni = strtoupper($dni);
-        $this->name=$name;
-        $this->surname=$surname;
-        $this->username=$username;
-        $this->email=$email;
-        $this->password=$password;
-        $this->image=$image;
-        $this->isActive=$isActive;
+        $this->id = filter_var($id,FILTER_SANITIZE_NUMBER_INT) ;
+        $this->dni = strtoupper(filter_var($dni,FILTER_SANITIZE_STRING));
+        $this->name=filter_var($name,FILTER_SANITIZE_STRING);
+        $this->surname=filter_var($surname,FILTER_SANITIZE_STRING);;
+        $this->username=filter_var($username,FILTER_SANITIZE_STRING);;
+        $this->email=filter_var($email,FILTER_SANITIZE_EMAIL);;
+        $this->password=filter_var($password,FILTER_SANITIZE_STRING);;
+        $this->image=filter_var($image,FILTER_SANITIZE_STRING);;
+        $this->isActive=filter_var($isActive,FILTER_SANITIZE_NUMBER_INT);;
+    }
+
+    public function getDni(){
+        return $this->dni;
+    }
+
+    public function isActive(){
+        return $this->isActive>0;
     }
 
     public function parametersToArray(){
-        return get_object_vars($this);
+        return get_object_vars($this); 
     }
 
     public function idToArray(){
-        return ["id" => $this->id];
+        return ["dni" => $this->dni];
     }
 
     private function validDni(){
@@ -63,7 +71,20 @@ class User implements DataBaseModel{
         return $valid;
     }
 
-    private function validate(){
+    public static function validateInDB($username,$password){
+        $username = filter_var($username,FILTER_SANITIZE_STRING);
+        $password = sha1(filter_var($password,FILTER_SANITIZE_STRING));
+
+        $user = User::listById($username);
+
+        if($user->password!=$password){
+            $user = null;
+        }
+
+        return $user;
+    }
+
+    private function validateDataIntegrity(){
         $messages = [];
         
         if( !is_numeric($this->id) ){
@@ -104,6 +125,8 @@ class User implements DataBaseModel{
                         .User::MIN_CHAR_PASSWORD.",".User::MAX_CHAR_PASSWORD.
                         "}).*)$/", $this->password ) ){
             $messages[] = ["message" => "Contraseña incorrecta", "type" => "danger"];        
+        }else{
+            $this->password = sha1($this->password);
         }
         
 
@@ -111,7 +134,7 @@ class User implements DataBaseModel{
     }
 
     public function save(){
-        $messages = $this->validate();
+        $messages = $this->validateDataIntegrity();
 
         if(count($messages)==0)
             $messages = DataBase::insert(get_class($this), $this->parametersToArray());
@@ -120,7 +143,7 @@ class User implements DataBaseModel{
     }
 
     public function update(){
-        $messages = $this->validate();
+        $messages = $this->validateDataIntegrity();
 
         if(count($messages)==0)
             $messages = DataBase::update(get_class($this), $this->parametersToArray(), $this->idToArray());
@@ -129,7 +152,7 @@ class User implements DataBaseModel{
     }
 
     public function delete(){
-        $messages = $this->validate();
+        $messages = $this->validateDataIntegrity();
 
         if(count($messages)==0)
             $messages = DataBase::delete(get_class($this),$this->idToArray());
@@ -142,12 +165,14 @@ class User implements DataBaseModel{
     }
 
     public static function listById($id){
-
+        return DataBase::getRowsByParameter(get_class(),["username" => $id]);
     }
 
     public static function totalUsuarios(){
         return DataBase::getNumberOfRows(get_class());
     }
+
+    
 }
 
 ?>

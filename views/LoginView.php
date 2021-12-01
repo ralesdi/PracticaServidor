@@ -15,7 +15,7 @@
             <form action="?controller=index&action=autenticate" method="POST">
                <!-- Name input-->
                <div class="form-floating mb-3">
-                  <input class="form-control" id="login" name="login" type="text" placeholder="Introduzca su usuario..." />
+                  <input class="form-control" id="username" name="username" type="text" placeholder="Introduzca su usuario..." />
                   <label for="name">Usuario</label>
                   <!-- <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div> -->
                </div>

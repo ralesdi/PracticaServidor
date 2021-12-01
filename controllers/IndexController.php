@@ -8,19 +8,17 @@
  * Incluimos todos los modelos que necesite este controlador
  */
 require_once MODELS_FOLDER . 'User.php';
+require_once MODELS_FOLDER . 'Student.php';
+require_once MODELS_FOLDER . 'Teacher.php';
+require_once MODELS_FOLDER . 'Admin.php';
 require_once MODELS_FOLDER . 'Course.php';
 require_once CONTROLLERS_FOLDER.'BaseController.php';
 class IndexController extends BaseController
 {
-   // El atributo $dao será a través del que podremos acceder a los datos 
-   private $user;
-   private $course;
 
    public function __construct()
    {
-      //parent::__construct();
-      $this->user = new User();
-      $this->course = new Course();
+
    }
 
    /**
@@ -41,9 +39,17 @@ class IndexController extends BaseController
    public function login()
    {
       $parametros = [
-         "mensajes" => []
+         "messages" => []
       ];
       $this->show("Login", $parametros);
+   }
+
+   public function notActive()
+   {
+      $parametros = [
+         "messages" => []
+      ];
+      $this->show("notactive", $parametros);
    }
 
    /**
@@ -56,20 +62,32 @@ class IndexController extends BaseController
     {
       if(isset($_POST['submit'])){
          // Pulso el botón Entrar del login. El login es el nombre
-         $login = filter_var($_POST['login'],FILTER_SANITIZE_STRING);
-         $password = filter_var($_POST['password'],FILTER_SANITIZE_STRING);
-         $modelo = $this->daoUser->validarUsuario($login, $password);
-         if($user = $modelo['datos']){
+         $user = User::validateInDB($_POST["username"],$_POST["password"]);
+         
+         if($user){
             // Comienzo sesión y guardo los datos del usuario autenticado
-            session_start();
-            $_SESSION['login'] = $user->getNombre();
-            // Salto a la página inicial de mi portal
-            $this->redirect("home","index");
+            if( $user->isActive() ){
+               session_start();
+               $_SESSION['user'] = $user;
+               
+               if(Student::isStudent($user)){
+                  $this->redirect("student","index");;
+               }else if(Teacher::isTeacher($user)){
+                  //controlador teacher
+               }else if(Admin::isAdmin($user)){
+                  //controlador admin
+               }
+            //$this->redirect("home","index");
+            }else{
+               $this->redirect("index","notActive");
+            }
+            
+            
          }else { // Autenticación no correcta
             $parametros = [
-               "mensajes" => [[
-                              "tipo" => "danger",
-                              "mensaje" => "¡El usuario o la contraseña no son correctos!"]
+               "messages" => [[
+                              "type" => "danger",
+                              "message" => "¡El usuario o la contraseña no son correctos!"]
                            ]
             ];
             $this->show("Login", $parametros);
@@ -88,7 +106,7 @@ class IndexController extends BaseController
    public function register()
    {
       $parametros = [
-         "mensajes" => []
+         "messages" => []
       ];
       $this->show("Register", $parametros);
    }

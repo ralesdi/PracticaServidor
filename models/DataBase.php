@@ -7,20 +7,6 @@ class DataBase {
     private static $dbPass= '';
     */
 
-    private static function mergeParameters($p1=[],$p2=[]){
-
-        $parameters = [];
-        if(sizeof($p1)==sizeof($p2)){
-            $size = sizeof($p1);
-
-            for ($i=0; $i < $size; $i++) { 
-                $parameters[$p1[$i]] = $p2[$i];
-            }
-        }
-
-        return $parameters;
-    }
-
     private static function parametersToList($parameters){
         $string[0] = "";
         $string[1] = "";
@@ -47,7 +33,7 @@ class DataBase {
         return $connection;
     }
 
-    public static function insert($table,$parameters){
+    public static function insert($table,$parameters){ // INSERRT INTO USER('')
         $connection = DataBase::connect();
         $message = [];
         try{  //Definimos la instrucción SQL parametrizada
@@ -132,12 +118,34 @@ class DataBase {
             $query = $connection->prepare($sql); 
             $query->execute();
             $number = $query->fetchColumn();
-            //echo '<div class="alert alert-success">' . "HAY $number USUARIOS" . '</div><br>';
         }catch(PDOException $ex){
 
         }
 
         return $number;
+    }
+
+    public static function getNumberOfRowsByParameters($table,$parameters){
+        $connection = DataBase::connect();
+        $number = 0;
+
+        try{
+            $string = "";
+            foreach ($parameters as $key => $value) {
+                $string.= "$key=:$key AND";
+            }
+            $string = substr($string,0,-3);
+            
+            $sql = "SELECT COUNT(*) FROM $table WHERE $string";
+            $query = $connection->prepare($sql); 
+            $query->execute($parameters);
+            $number = $query->fetchColumn();
+        }catch(PDOException $ex){
+
+        }
+
+        return $number;
+
     }
 
     public static function getRowsByParameter($table,$parameters){
@@ -154,7 +162,7 @@ class DataBase {
             $query = $connection->prepare($sql); 
             $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $table);
             $query->execute($parameters);
-
+            
             $usuarios = $query->fetch();
             
         }catch(PDOException $ex){
@@ -163,6 +171,8 @@ class DataBase {
 
         return $usuarios;
     }
+
+    
 
     
 }

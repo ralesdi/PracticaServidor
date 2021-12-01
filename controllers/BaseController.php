@@ -1,5 +1,4 @@
 <?php
-
 class BaseController{
     
     public static function show($name, $vars = array())
