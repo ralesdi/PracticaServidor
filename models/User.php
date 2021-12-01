@@ -71,11 +71,11 @@ class User implements DataBaseModel{
         return $valid;
     }
 
-    public static function validateInDB($username,$password){
-        $username = filter_var($username,FILTER_SANITIZE_STRING);
+    public static function validateInDB($dni,$password){
+        $dni = filter_var($dni,FILTER_SANITIZE_STRING);
         $password = sha1(filter_var($password,FILTER_SANITIZE_STRING));
 
-        $user = User::listById($username);
+        $user = User::listById(["dni" => $dni]);
 
         if($user->password!=$password){
             $user = null;
@@ -165,7 +165,7 @@ class User implements DataBaseModel{
     }
 
     public static function listById($id){
-        return DataBase::getRowsByParameter(get_class(),["username" => $id]);
+        return DataBase::getRowsByParameter(get_class(),$id);
     }
 
     public static function totalUsuarios(){

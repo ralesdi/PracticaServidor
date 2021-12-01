@@ -1,5 +1,5 @@
 <?php
-
+require_once MODELS_FOLDER . 'User.php';
 class Teacher extends User{
 
     function __construct($id=0,$dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image="",$isActive = 0){

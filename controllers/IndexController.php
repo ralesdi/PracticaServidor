@@ -39,8 +39,24 @@ class IndexController extends BaseController
    public function login()
    {
       $parametros = [
-         "messages" => []
+         "messages" => [],
+         "dni" => "",
+         "password" => "",
+         "rememberme" => ""
       ];
+
+      if( isset($_COOKIE["dni"]) ){
+         echo "HOLA";
+         $parametros["dni"] = $_COOKIE["dni"];
+      }
+
+      if( isset($_COOKIE["password"]) ){
+         $parametros["password"] = $_COOKIE["password"] ;
+      }
+
+      if( isset($_COOKIE["rememberme"]) ){
+         $parametros["rememberme"] =  $_COOKIE["rememberme"] ;
+      }
       $this->show("Login", $parametros);
    }
 
@@ -62,13 +78,27 @@ class IndexController extends BaseController
     {
       if(isset($_POST['submit'])){
          // Pulso el botón Entrar del login. El login es el nombre
-         $user = User::validateInDB($_POST["username"],$_POST["password"]);
+         $user = User::validateInDB($_POST["dni"],$_POST["password"]);
          
          if($user){
             // Comienzo sesión y guardo los datos del usuario autenticado
             if( $user->isActive() ){
                session_start();
                $_SESSION['user'] = $user;
+
+               if( isset($_POST['rememberme']) AND $_POST['rememberme']=='on'){
+                  setcookie ('dni' ,$_POST['dni'] ,time() + (15 * 24 * 60 * 60)); 
+                  setcookie ('password',$_POST['password'],time() + (15 * 24 * 60 * 60));
+                  setcookie ('rememberme',$_POST['rememberme'],time() + (15 * 24 * 60 * 60));
+               } else {  //Si no está seleccionado el checkbox..
+                  // Eliminamos las cookies
+                  if(isset($_COOKIE['usuario'])) { 
+                     setcookie ('dni',""); } 
+                  if(isset($_COOKIE['password'])) { 
+                     setcookie ('password',""); } 
+                  if(isset($_COOKIE['recuerdo'])) { 
+                     setcookie ('rememberme',""); }    
+               }
                
                if(Student::isStudent($user)){
                   $this->redirect("student","index");;

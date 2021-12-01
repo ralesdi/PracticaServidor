@@ -15,15 +15,20 @@
             <form action="?controller=index&action=autenticate" method="POST">
                <!-- Name input-->
                <div class="form-floating mb-3">
-                  <input class="form-control" id="username" name="username" type="text" placeholder="Introduzca su usuario..." />
-                  <label for="name">Usuario</label>
+                  <input class="form-control" id="dni" name="dni" type="text" value="<?=$dni?>"/>
+                  <label for="name">DNI</label>
                   <!-- <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div> -->
                </div>
                <!-- Password-->
                <div class="form-floating mb-3">
-                  <input class="form-control" id="password" name="password" type="password" placeholder="Password fd" />
+                  <input class="form-control" id="password" name="password" type="password" placeholder="Password fd" value="<?=$password?>" />
                   <label for="email">Password</label>
                   <!-- <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div> -->
+               </div>
+
+               <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="rememberme" id="rememberme" value="on" <?if($rememberme=="on") echo "checked=''"; ?>>
+                  <label class="form-check-label" for="formCheckChecked">Recuérdame</label>
                </div>
                <!-- Submit Button-->
                <button class="btn btn-primary btn-xl mt-3 mb-2" id="submitButton" name="submit" type="submit">Entrar</button>
