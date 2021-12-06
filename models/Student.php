@@ -7,7 +7,7 @@ class Student extends User{
     }
 
     public static function isStudent($user){
-        return DataBase::getNumberOfRowsByParameters(get_class(),["dni" => $user->getDni()]) > 0;
+        return DataBase::getNumberOfRowsByParameters(get_class(),["dni" => $user->dni]) > 0;
     }
 }
 

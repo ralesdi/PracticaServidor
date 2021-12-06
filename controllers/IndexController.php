@@ -78,7 +78,7 @@ class IndexController extends BaseController
     {
       if(isset($_POST['submit'])){
          // Pulso el botón Entrar del login. El login es el nombre
-         $user = User::validateInDB($_POST["dni"],$_POST["password"]);
+         $user = User::validateInDB($_POST["dni"],sha1($_POST["password"]));
          
          if($user){
             // Comienzo sesión y guardo los datos del usuario autenticado
@@ -100,13 +100,7 @@ class IndexController extends BaseController
                      setcookie ('rememberme',""); }    
                }
                
-               if(Student::isStudent($user)){
-                  $this->redirect("student","index");;
-               }else if(Teacher::isTeacher($user)){
-                  //controlador teacher
-               }else if(Admin::isAdmin($user)){
-                  //controlador admin
-               }
+               $this->redirect("user","index");
             //$this->redirect("home","index");
             }else{
                $this->redirect("index","notActive");

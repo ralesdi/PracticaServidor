@@ -7,7 +7,7 @@ class Teacher extends User{
     }
 
     public static function isTeacher($user){
-        return DataBase::getNumberOfRowsByParameters(get_class(),["dni" => $user->getDni()]) > 0;
+        return DataBase::getNumberOfRowsByParameters(get_class(),["dni" => $user->dni]) > 0;
     }
 }
 

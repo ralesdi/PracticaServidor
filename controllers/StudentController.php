@@ -3,10 +3,9 @@
 /**
  * Controlador de la página de entrada al portal desde la que se pueden hacer las funciones que te permita tu rol
  */
-require_once CONTROLLERS_FOLDER.'BaseController.php';
+require_once CONTROLLERS_FOLDER.'UserController.php';
 require_once MODELS_FOLDER . 'Student.php';
-class StudentController extends BaseController{
-    private $student;
+class StudentController extends UserController{
 
    public function __construct()
    {
@@ -14,22 +13,20 @@ class StudentController extends BaseController{
       if ( !isset($_SESSION['user']) OR !Student::isStudent($_SESSION['user']) )  // Si no existe la sesión…
       { 
          $this->redirect("index", "login");
+      }else{
+         $this->user = $_SESSION['user'];
       }
    }
 
    public function index()
    {
-      $parametros = [
+      $parameters = [
          "tituloventana" => "Inicio de la aplicación autenticado"
       ];
-      $this->show("index", $parametros);
+      $this->show("index", $parameters);
    }
 
-   public function logout()
-   {
-      session_start();
-      session_unset();
-      session_destroy();
-      $this->redirect("index", "index");
-   }
+   
+  
+
 }

@@ -22,9 +22,6 @@ class User implements DataBaseModel{
     protected $password;
     protected $image;
     protected $isActive;
-    
-
-
 
     function __construct($id=0,$dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image="",$isActive = 0){
         $this->id = filter_var($id,FILTER_SANITIZE_NUMBER_INT) ;
@@ -38,8 +35,58 @@ class User implements DataBaseModel{
         $this->isActive=filter_var($isActive,FILTER_SANITIZE_NUMBER_INT);;
     }
 
+
     public function getDni(){
         return $this->dni;
+    }
+
+    public function getUsername(){
+        return $this->username;
+    }
+
+    public function setUsername($username){
+        
+        if(!$message = User::validUsername($username)){
+            $this->username = $username;
+        }
+
+        return $message;
+    }
+
+    public function getName(){
+        return $this->name;
+    }
+
+    public function setName($name){
+        if(!$message = User::validName($name)){
+            $this->name = $name;
+            
+        }
+
+        return $message;
+        
+    }
+
+    public function getSurname(){
+        return $this->surname;
+    }
+
+    public function setSurname($surname){
+        if(!$message = User::validSurname($surname)){
+            $this->surname = $surname;
+        }
+        return $message;
+    }
+
+    public function getEmail(){
+        return $this->email;
+    }
+
+    public function setEmail($email){
+        if(!$message = User::validEmail($email)){
+            $this->email = $email;
+        }
+        return $message;
     }
 
     public function isActive(){
@@ -54,26 +101,11 @@ class User implements DataBaseModel{
         return ["dni" => $this->dni];
     }
 
-    private function validDni(){
-        
-        $validationTable = "TRWAGMYFPDXBNJZSQVHLCKE";
-        $valid = false;
-
-        if( preg_match("/^\d{8}[A-Z]$/",$this->dni) ){
-            $number = (int)substr($this->dni,0,-1);
-            $char = "".$this->dni[8];
-            $module = $number%23;
-            if($validationTable[$module] == $char){
-                $valid = true;
-            }
-        }
-
-        return $valid;
-    }
+    
 
     public static function validateInDB($dni,$password){
         $dni = filter_var($dni,FILTER_SANITIZE_STRING);
-        $password = sha1(filter_var($password,FILTER_SANITIZE_STRING));
+        $password = filter_var($password,FILTER_SANITIZE_STRING);
 
         $user = User::listById(["dni" => $dni]);
 
@@ -84,50 +116,131 @@ class User implements DataBaseModel{
         return $user;
     }
 
+    private static function validId($id){
+        $message = null;
+        if( !is_numeric($id) ){
+            $message = ["message" => "Error al procesar el ID", "type" => "danger"];        
+        }
+
+        return $message;
+    }
+
+    private static function validDni($dni){
+        
+        $validationTable = "TRWAGMYFPDXBNJZSQVHLCKE";
+        $valid = false;
+
+        if( preg_match("/^\d{8}[A-Z]$/",$dni) ){
+            $number = (int)substr($dni,0,-1);
+            $char = "".$dni[8];
+            $module = $number%23;
+            if($validationTable[$module] == $char){
+                $valid = true;
+            }
+        }
+
+        $message = null;
+
+        if(!$valid){
+            $message = ["message" => "DNI incorrecto", "type" => "danger"];
+        }
+
+        return $message;
+    }
+
+    private static function validUsername($username){
+        $message = null;
+        if( !preg_match("/^[a-z0-9]{"
+            .User::MIN_CHAR_USERNAME.",".User::MAX_CHAR_USERNAME.
+            "}$/i", $username ) ){
+            $message = ["message" => "Nombre de usuario incorrecto", "type" => "danger"];
+        }
+
+        return $message;
+    }
+
+    private static function validName($name){
+        $message = null;
+        if( !preg_match("/^[a-z ]{"
+            .User::MIN_CHAR_NAME.",".User::MAX_CHAR_NAME.
+            "}$/i", $name ) ){
+            $message = ["message" => "Nombre incorrecto", "type" => "danger"];
+        }
+
+        return $message;
+    }
+
+    private static function validSurname($surname){
+        $message = null;
+        if( !preg_match("/^[a-z ]{"
+            .User::MIN_CHAR_SURNAME.",".User::MAX_CHAR_SURNAME.
+            "}$/i", $surname ) ){
+            $message = ["message" => "Apellido incorrecto", "type" => "danger"];        
+        }           
+
+        return $message;
+    }
+
+    private static function validEmail($email){
+        $message = null;
+        if( !preg_match("/^[a-z0-9]{"
+            .User::MIN_CHAR_EMAIL.",".User::MAX_CHAR_EMAIL.
+            "}[@][a-z0-9]{"
+            .User::MIN_CHAR_EMAIL.",".User::MAX_CHAR_EMAIL.
+            "}[.][a-z]{2,5}$/i",$email) ){
+                $message = ["message" => "Email incorrecto", "type" => "danger"];        
+        }         
+
+        return $message;
+    }
+
+    private static function validPassword($password){
+        $message = null;
+        if( !preg_match("/^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W)(?=.{"
+            .User::MIN_CHAR_PASSWORD.",".User::MAX_CHAR_PASSWORD.
+            "}).*)$/", $password ) ){
+            $message = ["message" => "Contraseña incorrecta", "type" => "danger"];        
+        }    
+
+        return $message;
+    }
+
+    
+
     private function validateDataIntegrity(){
         $messages = [];
         
-        if( !is_numeric($this->id) ){
-            $messages[] = ["message" => "Error al procesar el ID", "type" => "danger"];        
-        }
-        
-        if( !$this->validDni() ){
-            $messages[] = ["message" => "DNI incorrecto", "type" => "danger"];        
-        }
-        
-        if( !preg_match("/^[a-z0-9]{"
-                        .User::MIN_CHAR_USERNAME.",".User::MAX_CHAR_USERNAME.
-                        "}$/i", $this->username ) ){
-            $messages[] = ["message" => "Nombre de usuario incorrecto", "type" => "danger"];
-        }
-        
-        if( !preg_match("/^[a-z ]{"
-                        .User::MIN_CHAR_NAME.",".User::MAX_CHAR_NAME.
-                        "}$/i", $this->name ) ){
-            $messages[] = ["message" => "Nombre incorrecto", "type" => "danger"];
-        }
-        
-        if( !preg_match("/^[a-z ]{"
-                        .User::MIN_CHAR_SURNAME.",".User::MAX_CHAR_SURNAME.
-                        "}$/i", $this->surname ) ){
-            $messages[] = ["message" => "Apellido incorrecto", "type" => "danger"];        
+        if( $message = User::validId($this->id)){
+            $messages[] = $message;
         }
 
-        if( !preg_match("/^[a-z0-9]{"
-                        .User::MIN_CHAR_EMAIL.",".User::MAX_CHAR_EMAIL.
-                        "}[@][a-z0-9]{"
-                        .User::MIN_CHAR_EMAIL.",".User::MAX_CHAR_EMAIL.
-                        "}[.][a-z]{2,5}$/i",$this->email) ){
-            $messages[] = ["message" => "Email incorrecto", "type" => "danger"];        
+        if( $message = User::validDni($this->dni)){
+            $messages[] = $message;
         }
 
+        if( $message = User::validUsername($this->username)){
+            $messages[] = $message;
+        }
+
+        if( $message = User::validName($this->name)){
+            $messages[] = $message;
+        }
+
+        if( $message = User::validSurname($this->username)){
+            $messages[] = $message;
+        }
+
+        if( $message = User::validEmail($this->email)){
+            $messages[] = $message;
+        }
+
+        /*
         if( !preg_match("/^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W)(?=.{"
                         .User::MIN_CHAR_PASSWORD.",".User::MAX_CHAR_PASSWORD.
                         "}).*)$/", $this->password ) ){
             $messages[] = ["message" => "Contraseña incorrecta", "type" => "danger"];        
-        }else{
-            $this->password = sha1($this->password);
         }
+        */
         
 
         return $messages;
@@ -136,7 +249,7 @@ class User implements DataBaseModel{
     public function save(){
         $messages = $this->validateDataIntegrity();
 
-        if(count($messages)==0)
+        if( !$messages )
             $messages = DataBase::insert(get_class($this), $this->parametersToArray());
 
         return $messages;
@@ -145,7 +258,7 @@ class User implements DataBaseModel{
     public function update(){
         $messages = $this->validateDataIntegrity();
 
-        if(count($messages)==0)
+        if( !$messages )
             $messages = DataBase::update(get_class($this), $this->parametersToArray(), $this->idToArray());
 
         return $messages;
@@ -154,7 +267,7 @@ class User implements DataBaseModel{
     public function delete(){
         $messages = $this->validateDataIntegrity();
 
-        if(count($messages)==0)
+        if( !$messages )
             $messages = DataBase::delete(get_class($this),$this->idToArray());
 
         return $messages;
