@@ -1,9 +1,11 @@
 <?php
 require_once CONTROLLERS_FOLDER.'BaseController.php';
+require_once MODELS_FOLDER . 'Course.php';
 require_once MODELS_FOLDER . 'User.php';
 require_once MODELS_FOLDER . 'Student.php';
 require_once MODELS_FOLDER . 'Teacher.php';
 require_once MODELS_FOLDER . 'Admin.php';
+
 class UserController extends BaseController{
     protected $user;
     public function __construct()
@@ -20,11 +22,11 @@ class UserController extends BaseController{
    protected function getUserType(){
        $type = "";
     if(Student::isStudent($this->user)){
-        $type = "Student";
+        $type = "student";
      }else if(Teacher::isTeacher($this->user)){
-        $type = "Teacher";
+        $type = "teacher";
      }else if(Admin::isAdmin($this->user)){
-        $type = "Admin";
+        $type = "admin";
      }
 
      return $type;
@@ -32,7 +34,7 @@ class UserController extends BaseController{
 
    public function index()
    {
-        $this->show($this->getUserType(),"index");
+        $this->redirect($this->getUserType(),"index");
    }
 
    public function profile(){
@@ -70,17 +72,26 @@ class UserController extends BaseController{
                     "messages" => $messages
                 ];
                 $this->show("profile",$parameters);
-            }
-
-           
-  
-            
-            
+            }     
         }else{
             $this->redirect($this->getUserType(),"profile");
         }
         
      }
+
+    public function courses(){
+        $courses = Course::listAll();
+        $parameters = [
+            "messages" => [],
+            "courses" => []
+        ];
+
+        if($courses){
+            $parameters["courses"] = $courses;
+        }
+
+        $this->show("courses",$parameters);
+    }
 
 
    public function logout()

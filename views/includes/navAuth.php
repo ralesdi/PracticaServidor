@@ -8,16 +8,17 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
          <ul class="navbar-nav ms-auto">
          <? 
-            $controller = isset($_GET["controller"])?$_GET["controller"]:"";
+            $controller = isset($_GET["controller"])?strtolower($_GET["controller"]):"";
          ?>  
          <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?controller=<?=$controller?>&action=profile">Profile</a></li>
-
+         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?controller=<?=$controller?>&action=courses">Courses</a></li>
          <?if($controller=="student"):?>
-            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#otros">Courses</a></li>
+            
+            
          <? elseif($controller=="teacher"): ?>
 
          <? elseif($controller=="admin"): ?>
-
+            
          <? endif; ?>
             
             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#cursos">Cursos</a></li>
