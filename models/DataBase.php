@@ -163,7 +163,7 @@ class DataBase {
             $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $table);
             $query->execute($parameters);
             
-            $usuarios = $query->fetch();
+            $usuarios = $query->fetchAll();
             
         }catch(PDOException $ex){
 

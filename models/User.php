@@ -274,11 +274,11 @@ class User implements DataBaseModel{
     }
 
     public static function listAll(){
-
+        return DataBase::getRowsByParameter(get_class(),["isActive" => 1]);
     }
 
     public static function listById($id){
-        return DataBase::getRowsByParameter(get_class(),$id);
+        return DataBase::getRowsByParameter(get_class(),["dni" => $id])[0];
     }
 
     public static function totalUsuarios(){

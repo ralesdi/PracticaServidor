@@ -2,25 +2,25 @@
 <?php require 'includes/navauth.php'; ?>
 <section class="page-section pt-5">
 
-    <form action="?controller=admin&action=validateCourse">
-        Name: <input type="text"> <br>
-        Description: <input type="text"> <br>
+    <form action="?controller=admin&action=validateCourse" method="POST">
+        Name: <input name="name" type="text" required> <br>
+        Description: <input name="description" type="text" required> <br>
         Teacher:
         <? if($teachers):?>
-            <select name="teacher" id="">
+            <select name="teacher" >
                 <? foreach($teachers as $teacher) ?>
                 <option value="<?=$teacher->getDni()?>"><?=$teacher->getDni()." - ".$teacher->getName()." ".$teacher->getSurname()?></option>
             </select>
         <? else: ?>
             There are no teachers in the academy
         <? endif;?> <br>
-        Start Date: <input type="datetime" name="" id=""> <br>
-        End Date: <input type="datetime" name="" id=""> <br>
-        Application Deadline: <input type="datetime" name="" id=""> <br>
-        Length of the course (h): <input type="number"> <br>
-        Cost: <input type="number" name="" id=""> <br>
-        Max number of students: <input type="number" name="" id=""> <br>
-        <input type="submit" value="Create">
+        Start Date: <input name="startDate" type="datetime-local" required> <br>
+        End Date: <input name="endDate" type="datetime-local" required> <br>
+        Application Deadline: <input name="applicationDeadline" type="datetime-local" required> <br>
+        Length of the course (h): <input name="length" type="number" required> <br>
+        Cost: <input type="number" name="cost" required> <br>
+        Max number of students: <input type="number" name="maxStudents" required> <br>
+        <input type="submit" name="create" value="Create">
     </form>
 
     <?php foreach ($messages as $message) : ?>

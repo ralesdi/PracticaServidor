@@ -13,7 +13,7 @@ class Course implements DataBaseModel
     private $applicationDeadline;
     private $length;
     private $cost;
-    private $max_students;
+    private $maxStudents;
     
     public function __construct(
         $id = 0,
@@ -25,7 +25,7 @@ class Course implements DataBaseModel
         $applicationDeadline = 0,
         $length = 0,
         $cost = 0.0,
-        $max_students = 0
+        $maxStudents = 0
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -36,10 +36,10 @@ class Course implements DataBaseModel
         $this->length = $length;
         $this->description = $description;
         $this->cost = $cost;
-        $this->max_students = $max_students;
+        $this->maxStudents = $maxStudents;
     }
 
-    private static function validId($id){
+    private function validId($id){
         $message = null;
 
         if( !is_int($id) ){
@@ -49,7 +49,7 @@ class Course implements DataBaseModel
         return $message;
     }
 
-    public static function validName($id){
+    public function validName($id){
         $message = null;
 
         if( false ){
@@ -59,7 +59,7 @@ class Course implements DataBaseModel
         return $message;
     }
 
-    public static function validDescription($id){
+    public function validDescription($id){
         $message = null;
 
         if( false ){
@@ -69,7 +69,7 @@ class Course implements DataBaseModel
         return $message;
     }
 
-    public static function validTeacher(){
+    public function validTeacher(){
         $message = null;
 
         if( false ){
@@ -79,7 +79,7 @@ class Course implements DataBaseModel
         return $message;
     }
 
-    public static function validStartDate(){
+    public function validStartDate(){
         $message = null;
 
         if( false ){
@@ -89,7 +89,7 @@ class Course implements DataBaseModel
         return $message;
     }
 
-    public static function validEndDate(){
+    public function validEndDate(){
         $message = null;
 
         if( false ){
@@ -99,7 +99,7 @@ class Course implements DataBaseModel
         return $message;
     }
 
-    public static function validApplicationDeadline(){
+    public function validApplicationDeadline(){
         $message = null;
 
         if( false ){
@@ -109,7 +109,7 @@ class Course implements DataBaseModel
         return $message;
     }
 
-    public static function validLength(){
+    public function validLength(){
         $message = null;
 
         if( false ){
@@ -119,7 +119,7 @@ class Course implements DataBaseModel
         return $message;
     }
 
-    public static function validCost(){
+    public function validCost(){
         $message = null;
 
         if( false ){
@@ -129,7 +129,7 @@ class Course implements DataBaseModel
         return $message;
     }
 
-    public static function validMaxStudents(){
+    public function validMaxStudents(){
         $message = null;
 
         if( false ){
@@ -142,13 +142,13 @@ class Course implements DataBaseModel
     private function validateDataIntegrity(){
         $messages = [];
         
-        $vars = get_object_vars();
+        $vars = get_object_vars($this);
 
         foreach ($vars as $name => $value) {
-            $function = "valid$name($value)";
+            $function = "valid$name()";
 
-            if( $message = Course::$function ){
-
+            if( $message = $this->$function ){
+                $messages[] = $message;
             }
         }
 
@@ -179,7 +179,12 @@ class Course implements DataBaseModel
 
     public function save()
     {
-        DataBase::insert(get_class(), $this->parametersToArray());
+        $messages = $this->validateDataIntegrity();
+
+        if( !$messages )
+            $messages = DataBase::insert(get_class($this), $this->parametersToArray());
+
+        return $messages;
     }
 
     public function update()
@@ -198,6 +203,10 @@ class Course implements DataBaseModel
 
     public static function listById($id)
     {
+    }
+
+    public static function numberOfCourses(){
+        return DataBase::getNumberOfRows(get_class());
     }
 
     /**
@@ -273,10 +282,10 @@ class Course implements DataBaseModel
     }
 
     /**
-     * Get the value of max_students
+     * Get the value of maxStudents
      */ 
-    public function getMax_students()
+    public function getMaxStudents()
     {
-        return $this->max_students;
+        return $this->maxStudents;
     }
 }
