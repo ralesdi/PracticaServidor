@@ -172,6 +172,25 @@ class DataBase {
         return $usuarios;
     }
 
+    public static function getAll($table){
+        $connection = DataBase::connect();
+        $usuarios = null;
+        try{
+
+            $sql = "SELECT * FROM $table";
+            $query = $connection->prepare($sql); 
+            $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $table);
+            $query->execute();
+            
+            $usuarios = $query->fetchAll();
+            
+        }catch(PDOException $ex){
+
+        }
+
+        return $usuarios;
+    }
+
     
 
     

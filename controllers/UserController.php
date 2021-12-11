@@ -83,7 +83,7 @@ class UserController extends BaseController{
         $courses = Course::listAll();
         $parameters = [
             "messages" => [],
-            "courses" => []
+            "courses" => Course::listAll()
         ];
 
         if($courses){

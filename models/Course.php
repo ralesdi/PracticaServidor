@@ -199,6 +199,7 @@ class Course implements DataBaseModel
 
     public static function listAll()
     {
+        return DataBase::getAll(get_class());
     }
 
     public static function listById($id)
