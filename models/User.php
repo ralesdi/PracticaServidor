@@ -114,23 +114,14 @@ class User extends DataBaseModel{
         return $user;
     }
 
-    private static function validId($id){
-        $message = null;
-        if( !is_numeric($id) ){
-            $message = ["message" => "Error al procesar el ID", "type" => "danger"];        
-        }
-
-        return $message;
-    }
-
-    private static function validDni($dni){
+    private function validDni(){
         
         $validationTable = "TRWAGMYFPDXBNJZSQVHLCKE";
         $valid = false;
 
-        if( preg_match("/^\d{8}[A-Z]$/",$dni) ){
-            $number = (int)substr($dni,0,-1);
-            $char = "".$dni[8];
+        if( preg_match("/^\d{8}[A-Z]$/",$this->dni) ){
+            $number = (int)substr($this->dni,0,-1);
+            $char = "".$this->dni[8];
             $module = $number%23;
             if($validationTable[$module] == $char){
                 $valid = true;
@@ -146,53 +137,53 @@ class User extends DataBaseModel{
         return $message;
     }
 
-    private static function validUsername($username){
+    private function validUsername(){
         $message = null;
         if( !preg_match("/^[a-z0-9]{"
             .User::MIN_CHAR_USERNAME.",".User::MAX_CHAR_USERNAME.
-            "}$/i", $username ) ){
+            "}$/i", $this->username ) ){
             $message = ["message" => "Nombre de usuario incorrecto", "type" => "danger"];
         }
 
         return $message;
     }
 
-    private static function validName($name){
+    private function validName(){
         $message = null;
         if( !preg_match("/^[a-z ]{"
             .User::MIN_CHAR_NAME.",".User::MAX_CHAR_NAME.
-            "}$/i", $name ) ){
+            "}$/i", $this->name ) ){
             $message = ["message" => "Nombre incorrecto", "type" => "danger"];
         }
 
         return $message;
     }
 
-    private static function validSurname($surname){
+    private function validSurname(){
         $message = null;
         if( !preg_match("/^[a-z ]{"
             .User::MIN_CHAR_SURNAME.",".User::MAX_CHAR_SURNAME.
-            "}$/i", $surname ) ){
+            "}$/i", $this->surname ) ){
             $message = ["message" => "Apellido incorrecto", "type" => "danger"];        
         }           
 
         return $message;
     }
 
-    private static function validEmail($email){
+    private function validEmail(){
         $message = null;
         if( !preg_match("/^[a-z0-9]{"
             .User::MIN_CHAR_EMAIL.",".User::MAX_CHAR_EMAIL.
             "}[@][a-z0-9]{"
             .User::MIN_CHAR_EMAIL.",".User::MAX_CHAR_EMAIL.
-            "}[.][a-z]{2,5}$/i",$email) ){
+            "}[.][a-z]{2,5}$/i",$this->email) ){
                 $message = ["message" => "Email incorrecto", "type" => "danger"];        
         }         
 
         return $message;
     }
 
-    private static function validPassword($password){
+    private function validPassword(){
         $message = null;
         /*
         if( !preg_match("/^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W)(?=.{"

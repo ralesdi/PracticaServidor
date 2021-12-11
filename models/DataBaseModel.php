@@ -7,6 +7,16 @@ abstract class DataBaseModel{
         return [array_key_first($id) => $id[array_key_first($id)]];
     }
 
+    public static function valid($regex,$attribute,$errorMessage){
+        $message = null;
+        if( !preg_match($regex,$attribute) ){
+                $message = ["message" => $errorMessage, "type" => "danger"];        
+        }         
+
+        return $message;
+        
+    }
+
     public function validateDataIntegrity(){
         $messages = [];
         
