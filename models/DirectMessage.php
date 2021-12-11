@@ -3,29 +3,29 @@ class DirectMessage extends DataBaseModel{
     protected $sender;
     protected $receiver;
     protected $content;
-    protected $sendingDate;
+    protected $sendingDateTime;
 
-    public function __construct($sender=0,$receiver=0,$content="",$sendingDate=null)
+    public function __construct($sender="",$receiver="",$content="",$sendingDateTime=null)
     {
-        $this->$sender = $sender;
-        $this->receiver = $receiver;
-        $this->content = $content;
-        $this->sendingDate = $sendingDate;
+        $this->sender = strtolower( filter_var($sender,FILTER_SANITIZE_STRING) );
+        $this->receiver = strtolower(  filter_var($receiver,FILTER_SANITIZE_STRING) );
+        $this->content = filter_var($content,FILTER_SANITIZE_STRING);
+        $this->sendingDateTime =  filter_var($sendingDateTime,FILTER_SANITIZE_STRING);
     }
 
     public function validSender(){
-        return DataBaseModel::valid("/\d{8}[A-Z]/",$this->sender,"Sender error");
+        return DataBaseModel::valid("/^[a-z0-9]{3,15}$/",$this->sender,"Sender error");
     }
 
     public function validReceiver(){
-        return DataBaseModel::valid("/\d{8}[A-Z]/",$this->receiver,"Receiver error");
+        return DataBaseModel::valid("/^[a-z0-9]{3,15}$/",$this->receiver,"Receiver error");
     }
 
     public function validContent(){
         return null;
     }
 
-    public function validSendingDate(){
+    public function validsendingDateTime(){
         return null;
     }
 

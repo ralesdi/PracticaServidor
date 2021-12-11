@@ -5,7 +5,7 @@ require_once MODELS_FOLDER . 'User.php';
 require_once MODELS_FOLDER . 'Student.php';
 require_once MODELS_FOLDER . 'Teacher.php';
 require_once MODELS_FOLDER . 'Admin.php';
-
+require_once MODELS_FOLDER . 'DirectMessage.php';
 class UserController extends BaseController{
     protected $user;
     public function __construct()
@@ -80,17 +80,46 @@ class UserController extends BaseController{
      }
 
     public function courses(){
-        $courses = Course::listAll();
         $parameters = [
             "messages" => [],
             "courses" => Course::listAll()
         ];
 
-        if($courses){
-            $parameters["courses"] = $courses;
-        }
-
         $this->show("courses",$parameters);
+    }
+
+    public function directMessages(){
+        $parameters = [
+            "messages" => [],
+            "courses" => DirectMessage::listByParameters(["receiver" => $this->user->getDni()])
+        ];
+
+
+        $this->show("directMessages",$parameters);
+    }
+
+    public function sendMessage(){
+
+        if( isset($_POST['send']) ){
+            $directMessage = new DirectMessage($this->user->getUsername(), $_POST['receiver'],$_POST['content'],(new DateTime())->format('Y-m-d H:i:s'));
+
+            if( $messages = $directMessage->save() ){
+                $parameters = [
+                    "messages" => $messages
+                ];
+
+                $this->show('DirectMessages',$parameters);
+            }else{
+                $parameters = [
+                    "messages" => [
+                        ["message" => "Message sent succesfully", "type" => "success"]
+                    ]
+                ];
+                $this->show('DirectMessages',$parameters);
+            }
+        }else{
+            $this->redirect($this->getUserType(),'DirectMessages');
+        }
     }
 
 

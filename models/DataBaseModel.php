@@ -19,13 +19,12 @@ abstract class DataBaseModel{
 
     public function validateDataIntegrity(){
         $messages = [];
-        
         $vars = get_object_vars($this);
 
         foreach ($vars as $name => $value) {
-            $function = "valid$name()";
+            $function = "valid$name";
 
-            if( $message = $this->$function ){
+            if( $message = $this->$function() ){
                 $messages[] = $message;
             }
         }
@@ -61,15 +60,19 @@ abstract class DataBaseModel{
     }
 
     public static function listAll(){
-        return DataBase::getAll(get_class());
+        return DataBase::getAll(get_called_class());
     }
 
     public static function listById($id){
         return DataBase::getRowsByParameter(get_class(),[array_key_first(get_class_vars(get_class())) => $id])[0];
     }
 
+    public static function listByParameters($parameters){
+        return DataBase::getRowsByParameter(get_called_class(),$parameters);
+    }
+
     public static function totalNumber(){
-        return DataBase::getNumberOfRows(get_class());
+        return DataBase::getNumberOfRows(get_called_class());
     }
 
     

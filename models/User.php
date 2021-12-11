@@ -24,10 +24,10 @@ class User extends DataBaseModel{
 
     function __construct($dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image="",$isActive = 0){
         $this->dni = strtoupper(filter_var($dni,FILTER_SANITIZE_STRING));
-        $this->name=filter_var($name,FILTER_SANITIZE_STRING);
-        $this->surname=filter_var($surname,FILTER_SANITIZE_STRING);;
-        $this->username=filter_var($username,FILTER_SANITIZE_STRING);;
-        $this->email=filter_var($email,FILTER_SANITIZE_EMAIL);;
+        $this->name= ucwords(filter_var($name,FILTER_SANITIZE_STRING));
+        $this->surname=ucwords(filter_var($surname,FILTER_SANITIZE_STRING));
+        $this->username= strtolower(filter_var($username,FILTER_SANITIZE_STRING));
+        $this->email=strtolower(filter_var($email,FILTER_SANITIZE_EMAIL));
         $this->password=filter_var($password,FILTER_SANITIZE_STRING);;
         $this->image=filter_var($image,FILTER_SANITIZE_STRING);;
         $this->isActive=filter_var($isActive,FILTER_SANITIZE_NUMBER_INT);;
