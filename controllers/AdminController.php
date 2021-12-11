@@ -74,6 +74,80 @@ class AdminController extends UserController{
        }
    }
 
+   public function activateUser(){
+      if( isset($_POST['username']) ){
+         $username = strtolower( filter_var($_POST['username'],FILTER_SANITIZE_STRING) );
+
+         $user = User::listByParameters(["username" => $_POST['username']])[0];
+
+         $user->setIsActive(true);
+
+         $parameters = 
+        [
+            "users" => User::listAllActive(),
+            "unactiveUsers" => User::listAllUnactive()
+        ];
+
+         if( $messages = $user->update() ){
+            $parameters['messages'] = $messages;
+            $this->show('listUsers',$parameters);
+         }else{
+            $parameters['messages'] = [ ["message" => "User activated succesfully", "type" => "success"] ];
+            $this->show('listUsers',$parameters);
+         }
+      }else{
+         $this->redirect('admin','listUsers');
+      }
+   }
+
+   public function deleteUser(){
+      if( isset($_POST['username']) ){
+         $username = strtolower( filter_var($_POST['username'],FILTER_SANITIZE_STRING) );
+
+         $user = User::listByParameters(["username" => $_POST['username']])[0];
+
+         $parameters = 
+        [
+            "users" => User::listAllActive(),
+            "unactiveUsers" => User::listAllUnactive()
+        ];
+
+         if( $messages = $user->delete() ){
+            $parameters['messages'] = $messages;
+            $this->show('listUsers',$parameters);
+         }else{
+            $parameters['messages'] = [ ["message" => "User activated succesfully", "type" => "success"] ];
+            $this->show('listUsers',$parameters);
+         }
+      }else{
+         $this->redirect('admin','listUsers');
+      }
+   }
+
+   public function editUser(){
+      if( isset($_POST['username']) ){
+         $username = strtolower( filter_var($_POST['username'],FILTER_SANITIZE_STRING) );
+
+         $user = User::listByParameters(["username" => $_POST['username']])[0];
+
+         $parameters = 
+        [
+            "users" => User::listAllActive(),
+            "unactiveUsers" => User::listAllUnactive()
+        ];
+
+         if( $messages = $user->delete() ){
+            $parameters['messages'] = $messages;
+            $this->show('listUsers',$parameters);
+         }else{
+            $parameters['messages'] = [ ["message" => "User activated succesfully", "type" => "success"] ];
+            $this->show('listUsers',$parameters);
+         }
+      }else{
+         $this->redirect('admin','listUsers');
+      }
+   }
+
 
 
 

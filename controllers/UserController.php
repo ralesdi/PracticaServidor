@@ -122,6 +122,20 @@ class UserController extends BaseController{
         }
     }
 
+    public function listUsers(){
+        $parameters = 
+        [
+            "messages" => [],
+            "users" => User::listAllActive()
+        ];
+
+        if($this->getUserType()=='admin'){
+            $parameters["unactiveUsers"] = User::listAllUnactive();
+        }
+
+        $this->show('listUsers',$parameters);
+    }
+
 
    public function logout()
    {

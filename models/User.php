@@ -11,7 +11,7 @@ class User extends DataBaseModel{
     protected $password;
     protected $image;
     protected $isActive;
-    public const  MIN_CHAR_USERNAME = 3;
+    public const MIN_CHAR_USERNAME = 3;
     public const MAX_CHAR_USERNAME = 15;
     public const MIN_CHAR_NAME = 3;
     public const MAX_CHAR_NAME = 20;
@@ -34,6 +34,9 @@ class User extends DataBaseModel{
         $this->isActive=filter_var($isActive,FILTER_SANITIZE_NUMBER_INT);;
     }
 
+    public function getImage(){
+        return $this->image;
+    }
 
     public function getDni(){
         return $this->dni;
@@ -79,6 +82,10 @@ class User extends DataBaseModel{
 
     public function isActive(){
         return $this->isActive>0;
+    }
+
+    public function setIsActive($isActive){
+        $this->isActive = $isActive;
     }
 
     public function parametersToArray(){
@@ -185,8 +192,12 @@ class User extends DataBaseModel{
         return $message;
     }
 
-    public static function listAll(){
+    public static function listAllActive(){
         return DataBase::getRowsByParameter(get_class(),["isActive" => 1]);
+    }
+
+    public static function listAllUnactive(){
+        return DataBase::getRowsByParameter(get_class(),["isActive" => 0]);
     }
 
 
