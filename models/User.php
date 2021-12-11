@@ -107,7 +107,7 @@ class User implements DataBaseModel{
         $dni = filter_var($dni,FILTER_SANITIZE_STRING);
         $password = filter_var($password,FILTER_SANITIZE_STRING);
 
-        $user = User::listById(["dni" => $dni]);
+        $user = User::listById($dni);
 
         if($user->password!=$password){
             $user = null;
