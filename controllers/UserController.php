@@ -91,7 +91,7 @@ class UserController extends BaseController{
     public function directMessages(){
         $parameters = [
             "messages" => [],
-            "courses" => DirectMessage::listByParameters(["receiver" => $this->user->getDni()])
+            "directMessages" => DirectMessage::listByParameters(["receiver" => $this->user->getUsername()])
         ];
 
 

@@ -3,6 +3,14 @@
 require_once MODELS_FOLDER."DataBase.php";
 require_once MODELS_FOLDER."DataBaseModel.php";
 class User extends DataBaseModel{
+    protected $dni;
+    protected $username;
+    protected $name;
+    protected $surname;
+    protected $email;
+    protected $password;
+    protected $image;
+    protected $isActive;
     public const  MIN_CHAR_USERNAME = 3;
     public const MAX_CHAR_USERNAME = 15;
     public const MIN_CHAR_NAME = 3;
@@ -13,14 +21,7 @@ class User extends DataBaseModel{
     public const MAX_CHAR_EMAIL = 20;
     public const MIN_CHAR_PASSWORD = 5;
     public const MAX_CHAR_PASSWORD = 30;
-    protected $dni;
-    protected $username;
-    protected $name;
-    protected $surname;
-    protected $email;
-    protected $password;
-    protected $image;
-    protected $isActive;
+    
 
     function __construct($dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image="",$isActive = 0){
         $this->dni = strtoupper(filter_var($dni,FILTER_SANITIZE_STRING));
@@ -44,11 +45,8 @@ class User extends DataBaseModel{
 
     public function setUsername($username){
         
-        if(!$message = User::validUsername($username)){
             $this->username = $username;
-        }
-
-        return $message;
+        
     }
 
     public function getName(){
@@ -56,12 +54,8 @@ class User extends DataBaseModel{
     }
 
     public function setName($name){
-        if(!$message = User::validName($name)){
             $this->name = $name;
-            
-        }
-
-        return $message;
+       
         
     }
 
@@ -70,10 +64,8 @@ class User extends DataBaseModel{
     }
 
     public function setSurname($surname){
-        if(!$message = User::validSurname($surname)){
             $this->surname = $surname;
-        }
-        return $message;
+
     }
 
     public function getEmail(){
@@ -81,10 +73,8 @@ class User extends DataBaseModel{
     }
 
     public function setEmail($email){
-        if(!$message = User::validEmail($email)){
             $this->email = $email;
-        }
-        return $message;
+
     }
 
     public function isActive(){

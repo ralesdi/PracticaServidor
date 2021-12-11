@@ -19,7 +19,7 @@
 
     <? if($directMessages): ?>
         <? foreach($directMessages as $directMessage): ?>
-        <h4><?=$directMessage->getContent()?></h4>
+        <h4><?=$directMessage->getSender()?> dice: <?=$directMessage->getContent()?></h4>
         <? endforeach; ?>
     <? else: ?>
         <h3>THERE ARE NO MESSAGES YET!</h3>

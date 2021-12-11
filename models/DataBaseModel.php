@@ -64,7 +64,7 @@ abstract class DataBaseModel{
     }
 
     public static function listById($id){
-        return DataBase::getRowsByParameter(get_class(),[array_key_first(get_class_vars(get_class())) => $id])[0];
+        return DataBase::getRowsByParameter(get_called_class(),[array_key_first(get_class_vars(get_called_class())) => $id])[0];
     }
 
     public static function listByParameters($parameters){
