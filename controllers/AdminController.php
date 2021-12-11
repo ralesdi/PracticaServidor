@@ -51,7 +51,7 @@ class AdminController extends UserController{
             }
 
             if($allFieldsFilled){
-                $course = new Course(Course::numberOfCourses(),$_POST['name'],$_POST['description'],$_POST['teacher'],
+                $course = new Course($_POST['name'],$_POST['description'],$_POST['teacher'],
                                      $_POST['startDate'],$_POST['endDate'],$_POST['applicationDeadline'],
                                      $_POST['length'],$_POST['cost'],$_POST['maxStudents']);
 

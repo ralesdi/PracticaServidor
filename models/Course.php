@@ -2,21 +2,19 @@
 
 require_once MODELS_FOLDER . "DataBase.php";
 require_once MODELS_FOLDER . "DataBaseModel.php";
-class Course implements DataBaseModel
+class Course extends DataBaseModel
 {
-    private $id;
-    private $name;
-    private $description;
-    private $teacher;
-    private $startDate;
-    private $endDate;
-    private $applicationDeadline;
-    private $length;
-    private $cost;
-    private $maxStudents;
+    protected $name;
+    protected $description;
+    protected $teacher;
+    protected $startDate;
+    protected $endDate;
+    protected $applicationDeadline;
+    protected $length;
+    protected $cost;
+    protected $maxStudents;
     
     public function __construct(
-        $id = 0,
         $name = "",
         $description = "",
         $teacher = 0,
@@ -27,7 +25,6 @@ class Course implements DataBaseModel
         $cost = 0.0,
         $maxStudents = 0
     ) {
-        $this->id = $id;
         $this->name = $name;
         $this->teacher = $teacher;
         $this->startDate = $startDate;
@@ -37,16 +34,6 @@ class Course implements DataBaseModel
         $this->description = $description;
         $this->cost = $cost;
         $this->maxStudents = $maxStudents;
-    }
-
-    private function validId($id){
-        $message = null;
-
-        if( !is_int($id) ){
-            $message = ["message" => "id no numerico", "type" => "danger"];
-        }
-
-        return $message;
     }
 
     public function validName($id){
@@ -137,77 +124,6 @@ class Course implements DataBaseModel
         }
 
         return $message;
-    }
-
-    private function validateDataIntegrity(){
-        $messages = [];
-        
-        $vars = get_object_vars($this);
-
-        foreach ($vars as $name => $value) {
-            $function = "valid$name()";
-
-            if( $message = $this->$function ){
-                $messages[] = $message;
-            }
-        }
-
-
-        /*
-        if( !preg_match("/^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W)(?=.{"
-                        .User::MIN_CHAR_PASSWORD.",".User::MAX_CHAR_PASSWORD.
-                        "}).*)$/", $this->password ) ){
-            $messages[] = ["message" => "Contraseña incorrecta", "type" => "danger"];        
-        }
-        */
-        
-
-        return $messages;
-    }
-
-
-
-    public function parametersToArray()
-    {
-        return get_object_vars($this);
-    }
-
-    public function idToArray()
-    {
-        return ["name" => $this->name];
-    }
-
-    public function save()
-    {
-        $messages = $this->validateDataIntegrity();
-
-        if( !$messages )
-            $messages = DataBase::insert(get_class($this), $this->parametersToArray());
-
-        return $messages;
-    }
-
-    public function update()
-    {
-        DataBase::update(get_class(), $this->parametersToArray(), $this->idToArray());
-    }
-
-    public function delete()
-    {
-        DataBase::delete(get_class(), $this->idToArray());
-    }
-
-    public static function listAll()
-    {
-        return DataBase::getAll(get_class());
-    }
-
-    public static function listById($id)
-    {
-    }
-
-    public static function numberOfCourses(){
-        return DataBase::getNumberOfRows(get_class());
     }
 
     /**

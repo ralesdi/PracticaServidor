@@ -142,8 +142,7 @@ class IndexController extends BaseController
     */
     public function completeRegister()
     {
-       $id = User::totalUsuarios();
-       $user = new User($id,$_POST["dni"],$_POST["username"],$_POST["name"],
+       $user = new User($_POST["dni"],$_POST["username"],$_POST["name"],
                                               $_POST["surname"],$_POST["email"],$_POST["password"]);
 
       $messages = $user->save();
