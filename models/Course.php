@@ -36,7 +36,7 @@ class Course extends DataBaseModel
         $this->maxStudents = $maxStudents;
     }
 
-    public function validName($id){
+    public function validName(){
         $message = null;
 
         if( false ){
@@ -46,7 +46,7 @@ class Course extends DataBaseModel
         return $message;
     }
 
-    public function validDescription($id){
+    public function validDescription(){
         $message = null;
 
         if( false ){

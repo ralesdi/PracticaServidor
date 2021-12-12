@@ -7,16 +7,6 @@ require_once CONTROLLERS_FOLDER.'UserController.php';
 require_once MODELS_FOLDER . 'Student.php';
 class StudentController extends UserController{
 
-   public function __construct()
-   {
-      session_start();   // Todos los métodos de este controlador requieren autenticación
-      if ( !isset($_SESSION['user']) OR !Student::isStudent($_SESSION['user']) )  // Si no existe la sesión…
-      { 
-         $this->redirect("index", "login");
-      }else{
-         $this->user = $_SESSION['user'];
-      }
-   }
 
    public function index()
    {

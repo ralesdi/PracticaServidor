@@ -20,10 +20,8 @@ class UserController extends BaseController{
    }
 
    protected function getUserType(){
-       $type = "";
-    if(Student::isStudent($this->user)){
-        $type = "user";
-     }else if(Teacher::isTeacher($this->user)){
+       $type = "student";
+     if(Teacher::isTeacher($this->user)){
         $type = "teacher";
      }else if(Admin::isAdmin($this->user)){
         $type = "admin";
@@ -148,6 +146,15 @@ class UserController extends BaseController{
 
         $this->show('listUsers',$parameters);
     }
+
+    public function teachers(){
+        $parameters = [
+           "teachers" => Teacher::listAll(),
+           "messages" => []
+        ];
+  
+        $this->show('teachers',$parameters);
+     }
 
 
 

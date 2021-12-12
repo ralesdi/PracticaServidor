@@ -10,6 +10,17 @@
     <? if($courses): ?>
         <? foreach($courses as $course): ?>
         <h4><?=$course->getName()?></h4>
+        <h4><?=$course->getDescription()?></h4>
+        <h4><?=$course->getTeacher()?></h4>
+        <? if($controller=="admin"): ?>
+        <form action="?controller=admin&action=deleteCourse" method="POST">
+        <button type="submit" name="name" value="<?=$course->getName()?>" >Delete Course</button>
+        </form>
+        <form action="?controller=admin&action=editCourse" method="POST">
+        <button type="submit" name="name" value="<?=$course->getName()?>" >Edit Course</button>
+        </form>
+        
+        <? endif; ?>
         <? endforeach; ?>
     <? else: ?>
         <h3>THERE ARE NO COURSES YET!</h3>

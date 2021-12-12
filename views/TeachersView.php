@@ -2,9 +2,12 @@
 <?php require 'includes/navauth.php'; ?>
 <section class="page-section pt-5">
 
-<form action="?controller=admin&action=addTeacher" method="POST">
+<? if($controller=='admin'): ?>
+    <form action="?controller=admin&action=addTeacher" method="POST">
     <input type="text" name="username" placeholder="Username"> <input type="submit" value="Add Techer">
-</form>
+    </form>
+<? endif; ?>
+
 
 <?php foreach ($messages as $message) : ?>
         <div class="alert alert-<?= $message["type"] ?> alert-dismissible fade show" role="alert">

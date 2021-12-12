@@ -25,14 +25,13 @@ class Teacher extends User{
 
     public static function listAll(){
         $teachers = DataBase::getAll(get_class());
-
+        $users = [];
         foreach ($teachers as $teacher) {
-            $teacher = User::listById($teacher->dni);
+            $users[] = User::listById($teacher->dni);
         }
 
-        return $teachers;
+        return $users;
     }
-
 
 }
 

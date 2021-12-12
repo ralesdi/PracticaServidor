@@ -75,6 +75,77 @@ class AdminController extends UserController{
        }
    }
 
+   public function deleteCourse(){
+      if( isset($_POST['name']) ){
+         $name = strtolower( filter_var($_POST['name'],FILTER_SANITIZE_STRING) );
+
+         $course = Course::listByParameters(["name" => $name])[0];
+
+         $parameters = 
+        [
+            "courses" => Course::listAll()
+        ];
+
+         if( $messages = $course->delete() ){
+            $parameters['messages'] = $messages;
+            $this->show('courses',$parameters);
+         }else{
+            $this->redirect('admin','courses');
+         }
+      }else{
+         $this->redirect('admin','courses');
+      }
+   }
+
+   public function editCourse(){
+      $name = strtolower( filter_var($_POST['name'],FILTER_SANITIZE_STRING) );
+
+      $course = Course::listById($name);
+
+      $parameters = [
+         "course" => $course,
+         "teachers" => Teacher::listAll(),
+         "messages" => []
+      ];
+
+      $this->show('editCourse',$parameters);
+   }
+
+   public function updateCourse(){
+      
+
+      if( isset($_POST["name"]) ){
+         $course = Course::listById($_POST['name']);
+          $messages = null;
+          $parameters = 
+        [
+            "messages" => [],
+            "course" => $course
+        ];
+    
+              $course->setDescription($_POST["description"]);
+              $course->setTeacher($_POST["teacher"]);
+              $course->setStartDate($_POST["startDate"]);
+              $course->setEndDate($_POST["endDate"]);
+              $course->setApplicationDeadline($_POST["applicationDeadline"]);
+              $course->setLength($_POST["length"]);
+              $course->setCost($_POST["cost"]);
+              $course->setMaxStudents($_POST["maxStudents"]);
+              if( $message = $course->update()) $messages = $message;
+
+              if(!$messages){
+                  $this->redirect($this->getUserType(),"editCourse");
+              }else{
+                      $parameters["messages"] = $messages;
+                      $this->show("editCourse",$parameters);
+              }
+
+      }else{
+          $this->redirect($this->getUserType(),"editCourse");
+      }
+      
+   }
+
    public function activateUser(){
       if( isset($_POST['username']) ){
          $username = strtolower( filter_var($_POST['username'],FILTER_SANITIZE_STRING) );
@@ -168,15 +239,6 @@ class AdminController extends UserController{
       
    }
 
-   public function teachers(){
-      $parameters = [
-         "teachers" => Teacher::listAll(),
-         "messages" => []
-      ];
-
-      $this->show('teachers',$parameters);
-   }
-
    public function addTeacher(){
       $username = strtolower( filter_var( $_POST['username'], FILTER_SANITIZE_STRING) );
    
@@ -192,6 +254,8 @@ class AdminController extends UserController{
                $this->show("teachers",$parameters);
       }
    }
+
+   
 
 
    

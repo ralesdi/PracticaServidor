@@ -8,8 +8,9 @@
         Teacher:
         <? if($teachers):?>
             <select name="teacher" >
-                <? foreach($teachers as $teacher) ?>
+            <? foreach($teachers as $teacher): ?>
                 <option value="<?=$teacher->getDni()?>"><?=$teacher->getDni()." - ".$teacher->getName()." ".$teacher->getSurname()?></option>
+                <? endforeach; ?>
             </select>
         <? else: ?>
             There are no teachers in the academy
