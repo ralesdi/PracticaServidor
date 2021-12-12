@@ -24,6 +24,7 @@ class User extends DataBaseModel{
     
 
     function __construct($dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image="",$isActive = 0){
+        $this->id = null;
         $this->dni = strtoupper(filter_var($dni,FILTER_SANITIZE_STRING));
         $this->name= ucwords(filter_var($name,FILTER_SANITIZE_STRING));
         $this->surname=ucwords(filter_var($surname,FILTER_SANITIZE_STRING));
@@ -32,11 +33,17 @@ class User extends DataBaseModel{
         $this->password=filter_var($password,FILTER_SANITIZE_STRING);;
         $this->image=filter_var($image,FILTER_SANITIZE_STRING);;
         $this->isActive=filter_var($isActive,FILTER_SANITIZE_NUMBER_INT);;
+        unset($this->id);
     }
 
     public function getImage(){
         return $this->image;
     }
+
+    public function setImage($url){
+        $this->image = $url;
+    }
+
 
     public function getDni(){
         return $this->dni;
@@ -47,7 +54,6 @@ class User extends DataBaseModel{
     }
 
     public function setUsername($username){
-        
             $this->username = $username;
         
     }
@@ -88,14 +94,6 @@ class User extends DataBaseModel{
         $this->isActive = $isActive;
     }
 
-    public function parametersToArray(){
-        return get_object_vars($this); 
-    }
-
-    public function idToArray(){
-        return ["dni" => $this->dni];
-    }
-
     
 
     public static function validateInDB($dni,$password){
@@ -111,7 +109,10 @@ class User extends DataBaseModel{
         return $user;
     }
 
-    private function validDni(){
+    protected function validId(){
+        return null;
+    }
+    protected function validDni(){
         
         $validationTable = "TRWAGMYFPDXBNJZSQVHLCKE";
         $valid = false;
@@ -134,7 +135,7 @@ class User extends DataBaseModel{
         return $message;
     }
 
-    private function validUsername(){
+    protected function validUsername(){
         $message = null;
         if( !preg_match("/^[a-z0-9]{"
             .User::MIN_CHAR_USERNAME.",".User::MAX_CHAR_USERNAME.
@@ -145,7 +146,7 @@ class User extends DataBaseModel{
         return $message;
     }
 
-    private function validName(){
+    protected function validName(){
         $message = null;
         if( !preg_match("/^[a-z ]{"
             .User::MIN_CHAR_NAME.",".User::MAX_CHAR_NAME.
@@ -156,7 +157,7 @@ class User extends DataBaseModel{
         return $message;
     }
 
-    private function validSurname(){
+    protected function validSurname(){
         $message = null;
         if( !preg_match("/^[a-z ]{"
             .User::MIN_CHAR_SURNAME.",".User::MAX_CHAR_SURNAME.
@@ -167,7 +168,7 @@ class User extends DataBaseModel{
         return $message;
     }
 
-    private function validEmail(){
+    protected function validEmail(){
         $message = null;
         if( !preg_match("/^[a-z0-9]{"
             .User::MIN_CHAR_EMAIL.",".User::MAX_CHAR_EMAIL.
@@ -180,7 +181,7 @@ class User extends DataBaseModel{
         return $message;
     }
 
-    private function validPassword(){
+    protected function validPassword(){
         $message = null;
         /*
         if( !preg_match("/^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W)(?=.{"
@@ -190,6 +191,14 @@ class User extends DataBaseModel{
         }    */
 
         return $message;
+    }
+
+    protected function validImage(){
+        return null;
+    }
+
+    protected function validIsActive(){
+        return null;
     }
 
     public static function listAllActive(){

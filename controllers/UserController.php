@@ -50,29 +50,42 @@ class UserController extends BaseController{
         $parameters = [
             "user" => $this->user
         ];
-
-        $user = $this->user ;
+        
+        $user = clone ($this->user) ;
 
         if( isset($_POST["save"]) ){
-            $messages = [];
             $message = null;
-            
-           if( $message = $user->setUsername($_POST["username"])) $messages[] = $message;
-           if( $message = $user->setName($_POST["name"])) $messages[] = $message;
-           if( $message = $user->setSurname($_POST["surname"])) $messages[] = $message;
-           if( $message = $user->setEmail($_POST["email"])) $messages[] = $message;
-           if( $message = $user->update()) $messages[] = $message;
-
-           if(!$messages){
-            $this->user = $user;
-            $this->redirect($this->getUserType(),"profile");
+            $url = "";
+            $messages = [];
+            if( $_FILES['image']['error'] != UPLOAD_ERR_NO_FILE ){
+                
+                $messages = $this->uploadImage($_FILES['image'],$url);
+            }
+      
+            if( !$messages ){
+                $user->setUsername($_POST["username"]);
+                $user->setName($_POST["name"]);
+                $user->setSurname($_POST["surname"]);
+                $user->setEmail($_POST["email"]);
+                $user->setImage($url);
+                if( $message = $user->update()) $messages = $message;
+                if(!$messages){
+                    $_SESSION['user'] = $user;
+                    $this->redirect($this->getUserType(),"profile");
+                }else{
+                        $parameters = [
+                            "user" => $this->user,
+                            "messages" => $messages
+                        ];
+                        $this->show("profile",$parameters);
+                }
             }else{
                 $parameters = [
                     "user" => $this->user,
                     "messages" => $messages
                 ];
                 $this->show("profile",$parameters);
-            }     
+            }
         }else{
             $this->redirect($this->getUserType(),"profile");
         }

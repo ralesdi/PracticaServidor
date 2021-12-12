@@ -153,6 +153,7 @@ class DataBase {
         $usuarios = null;
         try{
             $string = "";
+            $selected = "";
             foreach ($parameters as $key => $value) {
                 $string.= "$key=:$key AND";
             }

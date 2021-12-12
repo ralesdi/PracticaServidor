@@ -1,7 +1,9 @@
 <?php require 'includes/header.php'; ?>
 <?php require 'includes/navauth.php'; ?>
 <section class="page-section pt-5">
-    <form action="<?=isset($_POST['editable'])?"?controller=$controller&action=saveProfileChanges": "?controller=$controller&action=profile"?>" method="POST">
+    <form action="<?=isset($_POST['editable'])?"?controller=$controller&action=saveProfileChanges": "?controller=$controller&action=profile"?>" method="POST" enctype="multipart/form-data">
+        <img src=<?=$user->getImage()?> alt="" width="100em" height="100em">
+        <input type="file" name="image" <?=isset($_POST['editable'])?"":"hidden"?>> <br>
         <input type="text" value="<?=$user->getDni()?>" disabled>  <br>
         <input type="text" name="username" value="<?=$user->getUsername()?>" <?=isset($_POST['editable'])?"":"disabled"?>> <br>
         <input type="text" name="name" value="<?=$user->getName()?>" <?=isset($_POST['editable'])?"":"disabled"?>> <br>

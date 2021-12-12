@@ -68,6 +68,8 @@ class IndexController extends BaseController
       $this->show("notactive", $parametros);
    }
 
+   
+
    /**
     * Maneja la solicitud de petición de login
     * Recibo de POST los datos de login y usuario
@@ -142,13 +144,20 @@ class IndexController extends BaseController
     */
     public function completeRegister()
     {
+       $url = null;
+       $messages = [];
+      if( $_FILES['image'] ){
+        $messages = $this->uploadImage($_FILES['image'],$url);
+      }
+      
+      if( !$messages ){
        $user = new User($_POST["dni"],$_POST["username"],$_POST["name"],
-                                              $_POST["surname"],$_POST["email"],$_POST["password"]);
+                                              $_POST["surname"],$_POST["email"],sha1($_POST["password"]),$url);
 
       $messages = $user->save();
-
+      }
       $parametros = [ "messages" => $messages];
-      if( count($messages) == 0 ){
+      if( !$messages ){
          $this->redirect("index","login");
       }else{
          $this->show("register",$parametros);

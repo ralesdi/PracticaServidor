@@ -3,8 +3,8 @@
 abstract class DataBaseModel{
 
     public function idToArray(){
-        $id = get_object_vars($this);
-        return [array_key_first($id) => $id[array_key_first($id)]];
+        $values = get_object_vars($this);
+        return [array_key_first($values) => $values[array_key_first($values)]];
     }
 
     public static function valid($regex,$attribute,$errorMessage){
@@ -15,6 +15,10 @@ abstract class DataBaseModel{
 
         return $message;
         
+    }
+
+    protected function validId(){
+        return null;
     }
 
     public function validateDataIntegrity(){

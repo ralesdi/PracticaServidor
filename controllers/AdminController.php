@@ -92,8 +92,7 @@ class AdminController extends UserController{
             $parameters['messages'] = $messages;
             $this->show('listUsers',$parameters);
          }else{
-            $parameters['messages'] = [ ["message" => "User activated succesfully", "type" => "success"] ];
-            $this->show('listUsers',$parameters);
+            $this->redirect('admin','listUsers');
          }
       }else{
          $this->redirect('admin','listUsers');
@@ -116,8 +115,7 @@ class AdminController extends UserController{
             $parameters['messages'] = $messages;
             $this->show('listUsers',$parameters);
          }else{
-            $parameters['messages'] = [ ["message" => "User activated succesfully", "type" => "success"] ];
-            $this->show('listUsers',$parameters);
+            $this->redirect('admin','listUsers');
          }
       }else{
          $this->redirect('admin','listUsers');
@@ -140,8 +138,7 @@ class AdminController extends UserController{
             $parameters['messages'] = $messages;
             $this->show('listUsers',$parameters);
          }else{
-            $parameters['messages'] = [ ["message" => "User activated succesfully", "type" => "success"] ];
-            $this->show('listUsers',$parameters);
+            $this->redirect('admin','listUsers');
          }
       }else{
          $this->redirect('admin','listUsers');

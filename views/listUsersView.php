@@ -2,9 +2,12 @@
 <?php require 'includes/navauth.php'; ?>
 <section class="page-section pt-5">
 
-    <? if($controller=="admin"): ?>
-    <a href="?controller=admin&action=activateUsers"><button>User Activation</button></a>
-    <? endif; ?>
+    <?php foreach ($messages as $message) : ?>
+        <div class="alert alert-<?= $message["type"] ?> alert-dismissible fade show" role="alert">
+            <?= $message["message"] ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endforeach; ?>
 
     <table width="100%">
     <? if($unactiveUsers): ?>
@@ -24,21 +27,23 @@
         </tr>
         <? foreach($unactiveUsers as $user): ?>
             <tr>
-                <form action="">
-                <td><?=$user->getImage()?></td>
-                <td><?=$user->getName()?></td>
-                <td><?=$user->getSurname()?></td>
-                <td><?=$user->getUsername()?></td>
+                <form method="POST" action=<?=isset($_POST['edit@'.$user->getUsername()])?"?controller=$controller&action=editUser":"?controller=$controller&action=listUsers" ?> >
+                <td><img src="<?=$user->getImage()?>" width="80em" height="80em"<?=isset($_POST['edit@'.$user->getUsername()])?"hidden":""?>> 
+                    <input type="file" name="image" value="" id="" <?=isset($_POST['edit@'.$user->getUsername()])?"":"hidden"?>>
+                    </td>
+                <td><input type="text" value=<?=$user->getName()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" value=<?=$user->getSurname()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" value=<?=$user->getUsername()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <? if($controller=='admin'): ?>
-                <td><?=$user->getDni()?></td>
-                <td><?=$user->getEmail()?></td>
+                <td><input type="text" value=<?=$user->getDni()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" value=<?=$user->getEmail()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <td>
-                    <button type="submit" name="username" value=<?=$user->getUsername()?>>E</button>
+                    <button type="submit" name=<?=isset($_POST["edit@".$user->getUsername()])?"save":"edit@".$user->getUsername() ?> > <?=isset($_POST['edit@'.$user->getUsername()])?"S":"E"?> </button>
                 </td>
                 </form>
                 <td>
                     <form action="?controller=admin&action=activateUser" method="POST">
-                    <button type="submit" name="username" value=<?=$user->getUsername()?>>!</button>
+                    <button type="submit" name="username" value=<?=$user->getUsername()?>>^</button>
                     </form>
                 </td>
                 <td>
@@ -73,7 +78,7 @@
         </tr>
         <? foreach($users as $user): ?>
             <tr>
-                <td><?=$user->getImage()?></td>
+            <td><img src="<?=$user->getImage()?>" width="80em" height="80em"></td>
                 <td><?=$user->getName()?></td>
                 <td><?=$user->getSurname()?></td>
                 <td><?=$user->getUsername()?></td>
@@ -90,11 +95,6 @@
     </table>
     
 
-    <?php foreach ($messages as $message) : ?>
-        <div class="alert alert-<?= $message["type"] ?> alert-dismissible fade show" role="alert">
-            <?= $message["message"] ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endforeach; ?>
+    
 </section>
 <?php require 'includes/footer.php'; ?>

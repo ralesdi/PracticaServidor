@@ -12,7 +12,8 @@
         $this->image=$image;
         $this->isActive=$isActive;
     -->
-    <form class="text-center" action="?controller=Index&action=completeRegister" method="post">
+    <form class="text-center" action="?controller=Index&action=completeRegister" method="POST" enctype="multipart/form-data">
+
         <div class="form-floating m-auto mb-2 w-25 justify-content-center">
             <input class="form-control" id="dni" name="dni" type="text" placeholder="Introduzca su usuario..." />
             <label for="name">DNI</label>
@@ -41,6 +42,10 @@
         <div class="form-floating m-auto mb-2 w-25 justify-content-center">
             <input class="form-control" id="password" name="password" type="password" placeholder="Introduzca su usuario..." />
             <label for="name">Password</label>
+        </div>
+
+        <div class="form-floating m-auto mb-2 w-25 justify-content-center">
+        Profile picture: <input type="file" name="image" id="image">
         </div>
 
         <input class="btn-lg btn-primary rounded m-auto " type="submit" value="Register">
