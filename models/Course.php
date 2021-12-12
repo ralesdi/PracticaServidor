@@ -301,4 +301,8 @@ class Course extends DataBaseModel
 
         return $this;
     }
+
+    public static function getCourses($teacher){
+        return Course::listByParameters(["teacher" => $teacher->getDni()]);
+    }
 }

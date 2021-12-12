@@ -6,6 +6,7 @@ require_once MODELS_FOLDER . 'Student.php';
 require_once MODELS_FOLDER . 'Teacher.php';
 require_once MODELS_FOLDER . 'Admin.php';
 require_once MODELS_FOLDER . 'DirectMessage.php';
+require_once MODELS_FOLDER . 'Application.php';
 class UserController extends BaseController{
     protected $user;
     public function __construct()
@@ -93,7 +94,8 @@ class UserController extends BaseController{
     public function courses(){
         $parameters = [
             "messages" => [],
-            "courses" => Course::listAll()
+            "courses" => Course::listAll(),
+            "applications" => Application::listByParameters(['username' => $this->user->getUsername()])
         ];
 
         $this->show("courses",$parameters);
@@ -154,6 +156,28 @@ class UserController extends BaseController{
         ];
   
         $this->show('teachers',$parameters);
+     }
+
+     public function applicate(){
+        
+
+        if( !Application::UserIsInCourse($this->user->getUsername(),$_POST['courseName'])){
+            $application = new Application($_POST['courseName'],$this->user->getUsername());
+            if( $message = $application->save()) $messages = $message;
+        }else{
+            $messages = [["message" => "You have already applied", "type" => "danger"]];
+        }
+        if(!$messages){
+            $this->redirect($this->getUserType(),"courses");
+        }else{
+            
+            $parameters = [
+                "messages" => $messages,
+                "courses" => Course::listAll()
+            ];
+            $this->show('courses',$parameters);
+            
+        }
      }
 
 

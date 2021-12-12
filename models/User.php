@@ -209,7 +209,9 @@ class User extends DataBaseModel{
         return DataBase::getRowsByParameter(get_called_class(),["isActive" => 0]);
     }
 
-
+    public static function ApplicationList(){
+        
+    }
     
 }
 

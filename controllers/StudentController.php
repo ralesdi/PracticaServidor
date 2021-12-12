@@ -11,8 +11,11 @@ class StudentController extends UserController{
    public function index()
    {
       $parameters = [
-         "tituloventana" => "Inicio de la aplicación autenticado"
+         "tituloventana" => "Bienvenid@, ".$this->user->getName()."!",
+         "courses" => []
       ];
+
+      $parameters["courses"] = Application::getAllCoursesEnrolled($this->user->getUsername());
       $this->show("index", $parameters);
    }
 

@@ -9,7 +9,12 @@
          <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
          <div class="divider-custom-line"></div>
       </div>
-      <h4 class="page-section-heading text-center text-uppercase text-secondary mb-0">Poner el contenido que corresponda</h4>
+      <? foreach($courses as $course): ?> 
+         <h3><?=$course->getName()?></h3>
+         <form action="?controller=<?=$controller?>&action=ApplicationList">
+            <input type="submit" value="Entrar">
+         </form>
+      <? endforeach;?>
    </div>
 </section>
 <?php require 'includes/footer.php'; ?>

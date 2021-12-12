@@ -21,7 +21,8 @@ class TeacherController extends UserController{
    public function index()
    {
       $parameters = [
-         "tituloventana" => "Inicio de la aplicación autenticado ADMIN"
+         "tituloventana" => "Inicio de la aplicación autenticado ADMIN",
+         "courses" => Course::getCourses($this->user)
       ];
       $this->show("index", $parameters);
    }
