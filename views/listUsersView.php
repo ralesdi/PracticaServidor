@@ -27,16 +27,17 @@
         </tr>
         <? foreach($unactiveUsers as $user): ?>
             <tr>
-                <form method="POST" action=<?=isset($_POST['edit@'.$user->getUsername()])?"?controller=$controller&action=editUser":"?controller=$controller&action=listUsers" ?> >
+                <form enctype="multipart/form-data" method="POST" action=<?=isset($_POST['edit@'.$user->getUsername()])?"?controller=$controller&action=editUser":"?controller=$controller&action=listUsers" ?> >
+                <input type="text" name="prevDni" value=<?=$user->getDni()?> hidden>
                 <td><img src="<?=$user->getImage()?>" width="80em" height="80em"<?=isset($_POST['edit@'.$user->getUsername()])?"hidden":""?>> 
                     <input type="file" name="image" value="" id="" <?=isset($_POST['edit@'.$user->getUsername()])?"":"hidden"?>>
                     </td>
-                <td><input type="text" value=<?=$user->getName()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
-                <td><input type="text" value=<?=$user->getSurname()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
-                <td><input type="text" value=<?=$user->getUsername()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" name="name" value=<?=$user->getName()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" name="surname" value=<?=$user->getSurname()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" name="username" value=<?=$user->getUsername()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <? if($controller=='admin'): ?>
-                <td><input type="text" value=<?=$user->getDni()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
-                <td><input type="text" value=<?=$user->getEmail()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" name="dni" value=<?=$user->getDni()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" name="email" value=<?=$user->getEmail()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <td>
                     <button type="submit" name=<?=isset($_POST["edit@".$user->getUsername()])?"save":"edit@".$user->getUsername() ?> > <?=isset($_POST['edit@'.$user->getUsername()])?"S":"E"?> </button>
                 </td>
@@ -58,7 +59,7 @@
             </tr>
         <? endforeach; ?>
     <? else: ?>
-        <tr><td>THERE ARE NO USERS YET!</td></tr>
+        <tr><td>THERE ARE NO UNACTIVE USERS YET!</td></tr>
     <? endif; ?>
     </table>
 
@@ -78,19 +79,34 @@
         </tr>
         <? foreach($users as $user): ?>
             <tr>
-            <td><img src="<?=$user->getImage()?>" width="80em" height="80em"></td>
-                <td><?=$user->getName()?></td>
-                <td><?=$user->getSurname()?></td>
-                <td><?=$user->getUsername()?></td>
+                <form enctype="multipart/form-data" method="POST" action=<?=isset($_POST['edit@'.$user->getUsername()])?"?controller=$controller&action=editUser":"?controller=$controller&action=listUsers" ?> >
+                <input type="text" name="prevDni" value=<?=$user->getDni()?> hidden>
+                <td><img src="<?=$user->getImage()?>" width="80em" height="80em"<?=isset($_POST['edit@'.$user->getUsername()])?"hidden":""?>> 
+                    <input type="file" name="image" value="" id="" <?=isset($_POST['edit@'.$user->getUsername()])?"":"hidden"?>>
+                    </td>
+                <td><input type="text" name="name" value=<?=$user->getName()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" name="surname" value=<?=$user->getSurname()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" name="username" value=<?=$user->getUsername()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <? if($controller=='admin'): ?>
-                <td><?=$user->getDni()?></td>
-                <td><?=$user->getEmail()?></td>
-                <th><button>Edit</button></th>
+                <td><input type="text" name="dni" value=<?=$user->getDni()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td><input type="text" name="email" value=<?=$user->getEmail()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
+                <td>
+                    <button type="submit" name=<?=isset($_POST["edit@".$user->getUsername()])?"save":"edit@".$user->getUsername() ?> > <?=isset($_POST['edit@'.$user->getUsername()])?"S":"E"?> </button>
+                </td>
+                </form>
+                <td>
+                    <form action="?controller=admin&action=deleteUser" method="POST">
+                    <button type="submit" name="username" value=<?=$user->getUsername()?>>x</button>
+                    </form>
+                </td>
+                   
+            
+                
                 <? endif; ?>
             </tr>
         <? endforeach; ?>
     <? else: ?>
-        <tr><td>THERE ARE NO USERS YET!</td></tr>
+        <tr><td>THERE ARE NO ACTIVE USERS YET!</td></tr>
     <? endif; ?>
     </table>
     

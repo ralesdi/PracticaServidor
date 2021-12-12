@@ -46,6 +46,7 @@ abstract class DataBaseModel{
     }
 
     public function update(){
+        
         $messages = $this->validateDataIntegrity();
 
         if( !$messages )

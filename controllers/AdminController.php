@@ -5,6 +5,7 @@
  */
 require_once CONTROLLERS_FOLDER.'UserController.php';
 require_once MODELS_FOLDER . 'Admin.php';
+require_once MODELS_FOLDER . 'Teacher.php';
 class AdminController extends UserController{
 
    public function __construct()
@@ -123,29 +124,74 @@ class AdminController extends UserController{
    }
 
    public function editUser(){
-      if( isset($_POST['username']) ){
-         $username = strtolower( filter_var($_POST['username'],FILTER_SANITIZE_STRING) );
-
-         $user = User::listByParameters(["username" => $_POST['username']])[0];
-
-         $parameters = 
+      $parameters = 
         [
-            "users" => User::listAllActive(),
-            "unactiveUsers" => User::listAllUnactive()
+            "messages" => [],
+            "users" => User::listAllActive()
         ];
 
-         if( $messages = $user->delete() ){
-            $parameters['messages'] = $messages;
-            $this->show('listUsers',$parameters);
-         }else{
-            $this->redirect('admin','listUsers');
-         }
+        if($this->getUserType()=='admin'){
+            $parameters["unactiveUsers"] = User::listAllUnactive();
+        }
+
+      if( isset($_POST["save"]) ){
+          $user = User::listById( strtoupper( filter_var($_POST["prevDni"],FILTER_SANITIZE_STRING) ));
+          $message = null;
+          $url = $user->getImage();
+          $messages = null;
+          if( $_FILES['image']['error'] != UPLOAD_ERR_NO_FILE ){   
+              $messages = $this->uploadImage($_FILES['image'],$url);
+          }
+    
+          if( !$messages ){
+              $user->setUsername($_POST["username"]);
+              $user->setName($_POST["name"]);
+              $user->setSurname($_POST["surname"]);
+              $user->setEmail($_POST["email"]);
+              $user->setDni($_POST["dni"]);
+              $user->setImage($url);
+              if( $message = $user->update()) $messages = $message;
+
+              if(!$messages){
+                  $this->redirect($this->getUserType(),"listUsers");
+              }else{
+                      $parameters["messages"] = $messages;
+                      $this->show("listUsers",$parameters);
+              }
+          }else{
+            $parameters["messages"] = $messages;
+            $this->show("listUsers",$parameters);
+          }
       }else{
-         $this->redirect('admin','listUsers');
+          $this->redirect($this->getUserType(),"listUsers");
       }
+      
    }
 
+   public function teachers(){
+      $parameters = [
+         "teachers" => Teacher::listAll(),
+         "messages" => []
+      ];
 
+      $this->show('teachers',$parameters);
+   }
+
+   public function addTeacher(){
+      $username = strtolower( filter_var( $_POST['username'], FILTER_SANITIZE_STRING) );
+   
+      $user = User::listByParameters(["username" => $username] )[0];
+
+
+      if( $message = Teacher::addTeacher($user)) $messages = $message;
+
+      if(!$messages){
+         $this->redirect($this->getUserType(),"teachers");
+      }else{
+               $parameters["messages"] = $messages;
+               $this->show("teachers",$parameters);
+      }
+   }
 
 
    

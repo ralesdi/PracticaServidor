@@ -22,7 +22,7 @@ class UserController extends BaseController{
    protected function getUserType(){
        $type = "";
     if(Student::isStudent($this->user)){
-        $type = "student";
+        $type = "user";
      }else if(Teacher::isTeacher($this->user)){
         $type = "teacher";
      }else if(Admin::isAdmin($this->user)){
@@ -148,6 +148,7 @@ class UserController extends BaseController{
 
         $this->show('listUsers',$parameters);
     }
+
 
 
    public function logout()

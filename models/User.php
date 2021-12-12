@@ -24,7 +24,6 @@ class User extends DataBaseModel{
     
 
     function __construct($dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image="",$isActive = 0){
-        $this->id = null;
         $this->dni = strtoupper(filter_var($dni,FILTER_SANITIZE_STRING));
         $this->name= ucwords(filter_var($name,FILTER_SANITIZE_STRING));
         $this->surname=ucwords(filter_var($surname,FILTER_SANITIZE_STRING));
@@ -33,7 +32,7 @@ class User extends DataBaseModel{
         $this->password=filter_var($password,FILTER_SANITIZE_STRING);;
         $this->image=filter_var($image,FILTER_SANITIZE_STRING);;
         $this->isActive=filter_var($isActive,FILTER_SANITIZE_NUMBER_INT);;
-        unset($this->id);
+        
     }
 
     public function getImage(){
@@ -44,6 +43,9 @@ class User extends DataBaseModel{
         $this->image = $url;
     }
 
+    public function setDni($dni){
+        $this->dni = $dni;
+    }
 
     public function getDni(){
         return $this->dni;
@@ -109,9 +111,7 @@ class User extends DataBaseModel{
         return $user;
     }
 
-    protected function validId(){
-        return null;
-    }
+    
     protected function validDni(){
         
         $validationTable = "TRWAGMYFPDXBNJZSQVHLCKE";
@@ -202,11 +202,11 @@ class User extends DataBaseModel{
     }
 
     public static function listAllActive(){
-        return DataBase::getRowsByParameter(get_class(),["isActive" => 1]);
+        return DataBase::getRowsByParameter(get_called_class(),["isActive" => 1]);
     }
 
     public static function listAllUnactive(){
-        return DataBase::getRowsByParameter(get_class(),["isActive" => 0]);
+        return DataBase::getRowsByParameter(get_called_class(),["isActive" => 0]);
     }
 
 
