@@ -3,7 +3,7 @@
 <section class="page-section pt-5">
 
     <form action="?controller=admin&action=updateCourse" method="POST">
-        Name: <input name="name" value="<?=$course->getName()?>" type="text" required disabled> <br>
+        Name: <input  value="<?=$course->getName()?>" type="text" required disabled> <br> <input name="name" value="<?=$course->getName()?>" type="text" required hidden>
         Description: <input name="description" value="<?=$course->getDescription()?>" type="text" required> <br>
         Teacher:
         <? if($teachers):?>
@@ -21,8 +21,9 @@
         Length of the course (h): <input name="length" type="number" value="<?=$course->getLength()?>" required> <br>
         Cost: <input type="number" name="cost" value="<?=$course->getCost()?>" required> <br>
         Max number of students: <input type="number" value="<?=$course->getMaxStudents()?>" name="maxStudents" required> <br>
-        <input type="submit" name="create" value="Edit">
+        <input type="submit" name="edit" value="Edit"> 
     </form>
+        <a href="?controller=admin&action=courses"><button>Back</button></a>
 
     <?php foreach ($messages as $message) : ?>
         <div class="alert alert-<?= $message["type"] ?> alert-dismissible fade show" role="alert">

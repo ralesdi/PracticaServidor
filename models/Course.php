@@ -205,4 +205,100 @@ class Course extends DataBaseModel
     {
         return $this->maxStudents;
     }
+
+    /**
+     * Set the value of description
+     *
+     * @return  self
+     */ 
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of teacher
+     *
+     * @return  self
+     */ 
+    public function setTeacher($teacher)
+    {
+        $this->teacher = $teacher;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of startDate
+     *
+     * @return  self
+     */ 
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of endDate
+     *
+     * @return  self
+     */ 
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of applicationDeadline
+     *
+     * @return  self
+     */ 
+    public function setApplicationDeadline($applicationDeadline)
+    {
+        $this->applicationDeadline = $applicationDeadline;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of length
+     *
+     * @return  self
+     */ 
+    public function setLength($length)
+    {
+        $this->length = $length;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of cost
+     *
+     * @return  self
+     */ 
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of maxStudents
+     *
+     * @return  self
+     */ 
+    public function setMaxStudents($maxStudents)
+    {
+        $this->maxStudents = $maxStudents;
+
+        return $this;
+    }
 }

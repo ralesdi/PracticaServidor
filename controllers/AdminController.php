@@ -52,7 +52,7 @@ class AdminController extends UserController{
             }
 
             if($allFieldsFilled){
-                $course = new Course($_POST['name'],$_POST['description'],$_POST['teacher'],
+                $course = new Course(ucwords($_POST['name']),$_POST['description'],$_POST['teacher'],
                                      $_POST['startDate'],$_POST['endDate'],$_POST['applicationDeadline'],
                                      $_POST['length'],$_POST['cost'],$_POST['maxStudents']);
 
@@ -77,7 +77,7 @@ class AdminController extends UserController{
 
    public function deleteCourse(){
       if( isset($_POST['name']) ){
-         $name = strtolower( filter_var($_POST['name'],FILTER_SANITIZE_STRING) );
+         $name = ucwords( filter_var($_POST['name'],FILTER_SANITIZE_STRING) );
 
          $course = Course::listByParameters(["name" => $name])[0];
 
@@ -98,7 +98,7 @@ class AdminController extends UserController{
    }
 
    public function editCourse(){
-      $name = strtolower( filter_var($_POST['name'],FILTER_SANITIZE_STRING) );
+      $name = ucwords( filter_var($_POST['name'],FILTER_SANITIZE_STRING) );
 
       $course = Course::listById($name);
 
@@ -113,10 +113,10 @@ class AdminController extends UserController{
 
    public function updateCourse(){
       
-
-      if( isset($_POST["name"]) ){
-         $course = Course::listById($_POST['name']);
-          $messages = null;
+      if( isset($_POST["edit"]) ){
+         $name = ucwords(filter_var($_POST['name'],FILTER_SANITIZE_STRING));
+         $course = Course::listById( $name );
+          $messages = [];
           $parameters = 
         [
             "messages" => [],
@@ -134,14 +134,15 @@ class AdminController extends UserController{
               if( $message = $course->update()) $messages = $message;
 
               if(!$messages){
-                  $this->redirect($this->getUserType(),"editCourse");
+                 
+                  $this->redirect($this->getUserType(),"courses");
               }else{
                       $parameters["messages"] = $messages;
                       $this->show("editCourse",$parameters);
               }
 
       }else{
-          $this->redirect($this->getUserType(),"editCourse");
+          $this->redirect($this->getUserType(),"courses");
       }
       
    }

@@ -22,7 +22,9 @@
         Cost: <input type="number" name="cost" required> <br>
         Max number of students: <input type="number" name="maxStudents" required> <br>
         <input type="submit" name="create" value="Create">
+        
     </form>
+    <a href="?controller=admin&action=courses"><button>Back</button></a>
 
     <?php foreach ($messages as $message) : ?>
         <div class="alert alert-<?= $message["type"] ?> alert-dismissible fade show" role="alert">
