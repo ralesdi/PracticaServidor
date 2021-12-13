@@ -22,7 +22,7 @@ abstract class DataBaseModel{
     }
 
     public function validateDataIntegrity(){
-        $messages = [];
+        $messages = null;
         $vars = get_object_vars($this);
 
         foreach ($vars as $name => $value) {
@@ -40,7 +40,8 @@ abstract class DataBaseModel{
         $messages = $this->validateDataIntegrity();
 
         if( !$messages )
-            $messages = DataBase::insert(get_class($this), get_object_vars($this));
+            if($message = DataBase::insert(get_class($this), get_object_vars($this)))$messages[] = $message;
+        
 
         return $messages;
     }

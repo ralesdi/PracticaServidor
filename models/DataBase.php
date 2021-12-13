@@ -49,7 +49,7 @@ class DataBase {
             
           }catch (PDOException $ex){
                 $error = $ex->errorInfo[2];
-                    $message[] = ["message" => $error, "type" => "danger"];
+                    $message = ["message" => $error, "type" => "danger"];
           }
 
           return $message;

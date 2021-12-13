@@ -146,8 +146,13 @@ class IndexController extends BaseController
     {
        $url = null;
        $messages = [];
-      if( $_FILES['image'] ){
-        $messages = $this->uploadImage($_FILES['image'],$url);
+       $message = null;
+
+      if(!$_POST['g-recaptcha-response']){
+         $messages = [ ["message" => "Error con el captcha", "type" => "danger"] ];
+      }
+      if( $_FILES['image'] && !$messages ){
+        if($message = $this->uploadImage($_FILES['image'],$url))$messages[]=$message;
       }
       
       if( !$messages ){
@@ -155,11 +160,14 @@ class IndexController extends BaseController
                                               $_POST["surname"],$_POST["email"],sha1($_POST["password"]),$url);
 
       $messages = $user->save();
+
+   
       }
       $parametros = [ "messages" => $messages];
       if( !$messages ){
          $this->redirect("index","login");
       }else{
+         
          $this->show("register",$parametros);
       }
      

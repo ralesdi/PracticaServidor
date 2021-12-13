@@ -2,6 +2,8 @@
 <?php require 'includes/navguest.php'; ?>
 <section class="page-section pt-5">
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
     <!--
         $this->dni = $dni;
         $this->name=$name;
@@ -47,7 +49,7 @@
         <div class="form-floating m-auto mb-2 w-25 justify-content-center">
         Profile picture: <input type="file" name="image" id="image">
         </div>
-
+        <div class="g-recaptcha" style="margin: auto;" data-sitekey="6LdOQZsdAAAAAD62n0cXS_ePG5NknAB4KL6Pfs_J"></div>
         <input class="btn-lg btn-primary rounded m-auto " type="submit" value="Register">
         
     </form>

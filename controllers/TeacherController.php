@@ -49,7 +49,6 @@ class TeacherController extends UserController{
       $application = Application::listByParameters(["id" => $id])[0];
       $messages = [];
       $message = null;
-      $application->setIsAccepted(true);
 
       if( $message = $application->delete() ) $messages = $message;
 
