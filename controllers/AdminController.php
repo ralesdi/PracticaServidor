@@ -6,6 +6,7 @@
 require_once CONTROLLERS_FOLDER.'UserController.php';
 require_once MODELS_FOLDER . 'Admin.php';
 require_once MODELS_FOLDER . 'Teacher.php';
+require_once MODELS_FOLDER . 'ExcelReader.php';
 class AdminController extends UserController{
 
    public function __construct()
@@ -236,7 +237,29 @@ class AdminController extends UserController{
    }
 
    
+   public function adminTools(){
+      $parameters = ["messages" => []];
 
+      $this->show('adminTools',$parameters);
+   }
+
+   public function uploadStudentsFromExcel(){
+      $url = "";
+      $messages = [];
+      if( $_FILES['excel'] ){
+         
+         if($message = $this->uploadExcel($_FILES['excel'],$url))$messages[]=$message;
+       }
+
+       ExcelReader::ExcelToStudents($url);
+
+       $parameters = [
+          "messages" => $messages
+       ];
+
+       echo $url;
+       $this->show('adminTools',$parameters);
+   }
 
    
   

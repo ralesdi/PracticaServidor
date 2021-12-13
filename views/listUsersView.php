@@ -60,7 +60,7 @@
                 </form>
                 <td>
                     <form action="?controller=admin&action=activateUser" method="POST">
-                    <input type="text" name="numPageU" value=<?=$numPage?> hidden>
+                    <input type="text" name="numPageU" value="<?=$numPage?>" hidden>
                     <button type="submit" name="username" value=<?=$user->getUsername()?>>^</button>
                     </form>
                 </td>
@@ -121,7 +121,7 @@
                 <td><input type="text" name="dni" value=<?=$user->getDni()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <td><input type="text" name="email" value=<?=$user->getEmail()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <td>
-                    <input type="text" name="numPage" value=<?=$numPage?> hidden>
+                    <input type="text" name="numPage" value="<?=$numPage?>" hidden>
                     <button type="submit" name=<?=isset($_POST["edit@".$user->getUsername()])?"save":"edit@".$user->getUsername() ?> > <?=isset($_POST['edit@'.$user->getUsername()])?"S":"E"?> </button>
                 </td>
                 </form>

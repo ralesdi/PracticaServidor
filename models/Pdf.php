@@ -1,5 +1,5 @@
 <?php
-require_once LIBRARY_FOLDER . "fpdf.php";
+require_once LIBRARY_FOLDER . "fpdf/fpdf.php";
 class PDF extends FPDF
 {
     private $title;

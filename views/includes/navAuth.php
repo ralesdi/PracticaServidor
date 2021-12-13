@@ -16,13 +16,12 @@
             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?controller=<?=$controller?>&action=directMessages">Direct Messages</a></li>
             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?controller=<?=$controller?>&action=listUsers">Users</a></li>
             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?controller=<?=$controller?>&action=teachers">Teachers</a></li>
-            <?if($controller=="student"):?>
                
                
-            <? elseif($controller=="teacher"): ?>
+            <? if($controller=="teacher"): ?>
 
             <? elseif($controller=="admin"): ?>
-               
+               <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?controller=<?=$controller?>&action=adminTools">Admin Tools</a></li>
             <? endif; ?>
                            
             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?controller=user&action=logout">Logout</a></li>
