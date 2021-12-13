@@ -8,6 +8,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endforeach; ?>
+    
+    <a target="_BLANK" href="?controller=<?=$controller?>&action=pdfApplications"><button>Print</button></a>
+
     <form action="?controller=<?=$controller?>&action=ApplicationList" method="POST">
         <input type="text" name="courseName" value="<?=$courseApp?>" hidden>
         <select onchange="this.form.submit()" name="itemsPerPageActiveUsers" id="">

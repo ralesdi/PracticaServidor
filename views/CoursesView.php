@@ -2,6 +2,8 @@
 <?php require 'includes/navauth.php'; ?>
 <section class="page-section pt-5">
 
+<a target="_BLANK" href="?controller=<?=$controller?>&action=pdfCourses"><button>Print</button></a>
+
     <? if($controller=="admin"): ?>
     <a href="?controller=admin&action=createCourse"><button>Add Course</button></a>
     <? endif; ?>

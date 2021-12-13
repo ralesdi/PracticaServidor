@@ -66,8 +66,6 @@ class User extends DataBaseModel{
 
     public function setName($name){
             $this->name = $name;
-       
-        
     }
 
     public function getSurname(){
@@ -92,11 +90,21 @@ class User extends DataBaseModel{
         return $this->isActive>0;
     }
 
+    public function getIsActive(){
+        return $this->isActive>0;
+    }
+
     public function setIsActive($isActive){
         $this->isActive = $isActive;
     }
 
-    
+    public function getId(){
+        return $this->id;
+    }
+
+    public function getPassword(){
+        return "";
+    }
 
     public static function validateInDB($dni,$password){
         $dni = filter_var($dni,FILTER_SANITIZE_STRING);
@@ -201,6 +209,10 @@ class User extends DataBaseModel{
         return null;
     }
 
+    public static function listAll(){
+        return DataBase::getAll(get_class());
+    }
+
     public static function listAllActive($start,$numRegisters){
         
         return DataBase::getRowsByParameterPage(get_called_class(),["isActive" => 1],$start,$numRegisters);
@@ -223,6 +235,36 @@ class User extends DataBaseModel{
         $numPages = DataBase::getNumberOfRowsByParameters(get_class(),["isActive" => 1]);
         return DataBase::getRowsByParameterPage(get_called_class(),["isActive" => 0],$start,$numRegisters);
     }
+
+    public static function getWidths(){
+        $widths = [
+               "dni" => 20,
+               "username" => 15,
+               "name" => 40,
+               "surname" => 45, 
+               "email" => 50,
+               "isActive" => 20
+        ];
+
+        return $widths;
+    }
+
+    public static function getVars($sensitiveInformation=true){
+        $vars = parent::getVars();
+
+        unset($vars["password"]);
+        unset($vars["image"]);
+
+        if(!$sensitiveInformation){
+            unset($vars["dni"]);
+            unset($vars["email"]);
+            unset($vars["isActive"]);
+        }
+
+
+        return $vars;
+    }
+
     
 }
 

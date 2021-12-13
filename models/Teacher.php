@@ -35,16 +35,7 @@ class Teacher extends User{
         return $users;
     }
 
-    public static function listAllPages($start,$numRegisters){
-        
-        return DataBase::getAllPage(get_called_class(),$start,$numRegisters);
-    }
-
-    public static function pages($itemsPerPage){
-        $num = count(DataBase::getAll(get_class()));
-        $pages =  ceil($num/$itemsPerPage);
-        return $pages;
-    }
+    
 
 }
 

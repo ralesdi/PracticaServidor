@@ -305,4 +305,20 @@ class Course extends DataBaseModel
     public static function getCourses($teacher){
         return Course::listByParameters(["teacher" => $teacher->getDni()]);
     }
+
+    public static function getWidths(){
+        $widths = [
+             "name" => 20,
+      "description" => 30,
+      "teacher" => 15,
+      "startDate" => 30,
+       "endDate" => 30,
+       "applicationDeadline" => 30,
+       "length" => 10,
+       "cost" => 10,
+       "maxStudents " => 15
+        ];
+
+        return $widths;
+    }
 }

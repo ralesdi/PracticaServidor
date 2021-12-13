@@ -7,6 +7,7 @@ require_once MODELS_FOLDER . 'Teacher.php';
 require_once MODELS_FOLDER . 'Admin.php';
 require_once MODELS_FOLDER . 'DirectMessage.php';
 require_once MODELS_FOLDER . 'Application.php';
+require_once MODELS_FOLDER . 'pdf.php';
 class UserController extends BaseController{
     protected $user;
     public function __construct()
@@ -262,7 +263,25 @@ class UserController extends BaseController{
         $this->show('applicationList',$parameters);
     }
 
+    public function pdfUsers(){
+        PDF::Print(User::listAll(),"List of users", $this->getUserType()=='admin');
+    }
 
+    public function pdfCourses(){
+        PDF::Print(Course::listAll(),"List of courses", $this->getUserType()=='admin');
+    }
+
+    public function pdfTeachers(){
+        PDF::Print(Teacher::listAll(),"List of teachers", $this->getUserType()=='admin');
+    }
+
+    public function pdfDirectMessages(){
+        PDF::Print(DirectMessage::listAll(),"List of messages", $this->getUserType()=='admin');
+    }
+
+    public function pdfApplications(){
+        PDF::Print(Application::listAll(),"List of applications", $this->getUserType()=='admin');
+    }
 
    public function logout()
    {

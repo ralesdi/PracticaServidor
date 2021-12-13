@@ -91,6 +91,19 @@ abstract class DataBaseModel{
         return $pages;
     }
 
+    public static function getVars($sensitiveInformation=false){
+        return get_class_vars(get_called_class());
+    }
+
+    public static function getWidths(){
+        $vars = get_class_vars(get_called_class());
+        $widths = [];
+        foreach ($vars as $key => $value) {
+            $widths[$key] = 190/count($vars);
+        }
+
+        return $widths;
+    }
     
 }
 

@@ -16,6 +16,7 @@
         </div>
     <?php endforeach; ?>
 
+    <a target="_BLANK" href="?controller=<?=$controller?>&action=pdfDirectMessages"><button>Print</button></a>
 
     <? if($directMessages): ?>
         <? foreach($directMessages as $directMessage): ?>

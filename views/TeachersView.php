@@ -8,7 +8,7 @@
     </form>
 <? endif; ?>
 
-
+<a target="_BLANK" href="?controller=<?=$controller?>&action=pdfTeachers"><button>Print</button></a>
 <?php foreach ($messages as $message) : ?>
         <div class="alert alert-<?= $message["type"] ?> alert-dismissible fade show" role="alert">
             <?= $message["message"] ?>

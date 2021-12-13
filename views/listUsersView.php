@@ -2,6 +2,9 @@
 <?php require 'includes/navauth.php'; ?>
 <section class="page-section pt-5">
 
+<a target="_BLANK" href="?controller=<?=$controller?>&action=pdfUsers"><button>Print</button></a>
+
+
     <?php foreach ($messages as $message) : ?>
         <div class="alert alert-<?= $message["type"] ?> alert-dismissible fade show" role="alert">
             <?= $message["message"] ?>
