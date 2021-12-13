@@ -9,6 +9,19 @@
         </div>
     <?php endforeach; ?>
 
+    <form action="?controller=<?=$controller?>&action=listUsers" method="POST">
+        <select onchange="this.form.submit()" name="itemsPerPageUnactiveUsers" id="">
+            <option <?=$itemPerPage==2?"selected":""?> value="2">2 items per page</option>
+            <option <?=$itemPerPage==4?"selected":""?> value="4">4 items per page</option>
+            <option <?=$itemPerPage==6?"selected":""?> value="6">6 items per page</option>
+            <option <?=$itemPerPage==8?"selected":""?> value="8">8 items per page</option>
+            <option <?=$itemPerPage==10?"selected":""?> value="10">10 items per page</option>
+        </select>
+        <? for($i = 0; $i<$numPagesUnactiveUsers; $i++): ?>
+            <button type="submit" name="numPageU" value="<?=$i?>"><?=$i?></button>
+    <? endfor; ?>
+    </form>
+
     <table width="100%">
     <? if($unactiveUsers): ?>
         <h2>UNACTIVE USERS</h2>
@@ -44,6 +57,7 @@
                 </form>
                 <td>
                     <form action="?controller=admin&action=activateUser" method="POST">
+                    <input type="text" name="numPageU" value=<?=$numPage?> hidden>
                     <button type="submit" name="username" value=<?=$user->getUsername()?>>^</button>
                     </form>
                 </td>
@@ -62,6 +76,19 @@
         <tr><td>THERE ARE NO UNACTIVE USERS YET!</td></tr>
     <? endif; ?>
     </table>
+
+    <form action="?controller=<?=$controller?>&action=listUsers" method="POST">
+        <select onchange="this.form.submit()" name="itemsPerPageActiveUsers" id="">
+            <option <?=$itemPerPage==2?"selected":""?> value="2">2 items per page</option>
+            <option <?=$itemPerPage==4?"selected":""?> value="4">4 items per page</option>
+            <option <?=$itemPerPage==6?"selected":""?> value="6">6 items per page</option>
+            <option <?=$itemPerPage==8?"selected":""?> value="8">8 items per page</option>
+            <option <?=$itemPerPage==10?"selected":""?> value="10">10 items per page</option>
+        </select>
+        <? for($i = 0; $i<$numPagesActiveUsers; $i++): ?>
+            <button type="submit" name="numPage" value="<?=$i?>"><?=$i?></button>
+    <? endfor; ?>
+    </form>
 
     <table width="100%">
     <? if($users): ?>
@@ -91,6 +118,7 @@
                 <td><input type="text" name="dni" value=<?=$user->getDni()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <td><input type="text" name="email" value=<?=$user->getEmail()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <td>
+                    <input type="text" name="numPage" value=<?=$numPage?> hidden>
                     <button type="submit" name=<?=isset($_POST["edit@".$user->getUsername()])?"save":"edit@".$user->getUsername() ?> > <?=isset($_POST['edit@'.$user->getUsername()])?"S":"E"?> </button>
                 </td>
                 </form>
@@ -109,6 +137,8 @@
         <tr><td>THERE ARE NO ACTIVE USERS YET!</td></tr>
     <? endif; ?>
     </table>
+
+    
     
 
     

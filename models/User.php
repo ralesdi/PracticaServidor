@@ -23,7 +23,7 @@ class User extends DataBaseModel{
     public const MAX_CHAR_PASSWORD = 30;
     
 
-    function __construct($dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image="",$isActive = 0){
+    function __construct($dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image=PHOTOS_FOLDER."default.jpg",$isActive = 0){
         $this->dni = strtoupper(filter_var($dni,FILTER_SANITIZE_STRING));
         $this->name= ucwords(filter_var($name,FILTER_SANITIZE_STRING));
         $this->surname=ucwords(filter_var($surname,FILTER_SANITIZE_STRING));
@@ -201,16 +201,27 @@ class User extends DataBaseModel{
         return null;
     }
 
-    public static function listAllActive(){
-        return DataBase::getRowsByParameter(get_called_class(),["isActive" => 1]);
-    }
-
-    public static function listAllUnactive(){
-        return DataBase::getRowsByParameter(get_called_class(),["isActive" => 0]);
-    }
-
-    public static function ApplicationList(){
+    public static function listAllActive($start,$numRegisters){
         
+        return DataBase::getRowsByParameterPage(get_called_class(),["isActive" => 1],$start,$numRegisters);
+    }
+
+    public static function pagesActive($itemsPerPage){
+        $num = DataBase::getNumberOfRowsByParameters(get_class(),["isActive" => 1]);
+        $pages =  ceil($num/$itemsPerPage);
+        return $pages;
+    }
+
+    public static function pagesUnactive($itemsPerPage){
+        $num = DataBase::getNumberOfRowsByParameters(get_class(),["isActive" => 0]);
+        $pages =  ceil($num/$itemsPerPage);
+
+        return $pages;
+    }
+
+    public static function listAllUnactive($start,$numRegisters){
+        $numPages = DataBase::getNumberOfRowsByParameters(get_class(),["isActive" => 1]);
+        return DataBase::getRowsByParameterPage(get_called_class(),["isActive" => 0],$start,$numRegisters);
     }
     
 }

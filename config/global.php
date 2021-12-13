@@ -10,5 +10,6 @@ define('PHOTOS_FOLDER', 'photos/');
 
 define('DEFAULT_CONTROLLER', 'Index');
 define('DEFAULT_ACTION', 'index');
+define('FPDF_FONTPATH', 'files');
 $nombreAcademia = 'MyAcademy';
 ?>

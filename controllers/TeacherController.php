@@ -21,12 +21,45 @@ class TeacherController extends UserController{
    public function index()
    {
       $parameters = [
-         "tituloventana" => "Inicio de la aplicación autenticado ADMIN",
+         "tituloventana" => "Bienvenid@ ".$this->user->getName(),
          "courses" => Course::getCourses($this->user)
       ];
       $this->show("index", $parameters);
    }
 
+   public function acceptApplication(){
+      $id = $_POST['id'];
+      $application = Application::listByParameters(["id" => $id])[0];
+      $messages = [];
+      $message = null;
+      $application->setIsAccepted(true);
+
+      if( $message = $application->update() ) $messages = $message;
+
+      $parameters = [
+         "messages" => $messages,
+         "applications" => Application::listByParameters(['courseName' => $application->getCourseName()])
+      ];
+
+      $this->show("applicationList",$parameters);
+   }
+
+   public function rejectApplication(){
+      $id = $_POST['id'];
+      $application = Application::listByParameters(["id" => $id])[0];
+      $messages = [];
+      $message = null;
+      $application->setIsAccepted(true);
+
+      if( $message = $application->delete() ) $messages = $message;
+
+      $parameters = [
+         "messages" => $messages,
+         "applications" => Application::listByParameters(['courseName' => $application->getCourseName()])
+      ];
+
+      $this->show("applicationList",$parameters);
+   }
    
   
 

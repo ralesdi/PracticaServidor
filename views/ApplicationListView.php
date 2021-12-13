@@ -2,21 +2,14 @@
 <?php require 'includes/navauth.php'; ?>
 <section class="page-section pt-5">
 
-<? if($controller=='admin'): ?>
-    <form action="?controller=admin&action=addTeacher" method="POST">
-    <input type="text" name="username" placeholder="Username"> <input type="submit" value="Add Teacher">
-    </form>
-<? endif; ?>
-
-
-<?php foreach ($messages as $message) : ?>
+    <?php foreach ($messages as $message) : ?>
         <div class="alert alert-<?= $message["type"] ?> alert-dismissible fade show" role="alert">
             <?= $message["message"] ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endforeach; ?>
-    
-    <form action="?controller=<?=$controller?>&action=teachers" method="POST">
+    <form action="?controller=<?=$controller?>&action=ApplicationList" method="POST">
+        <input type="text" name="courseName" value="<?=$courseApp?>" hidden>
         <select onchange="this.form.submit()" name="itemsPerPageActiveUsers" id="">
             <option <?=$itemPerPage==2?"selected":""?> value="2">2 items per page</option>
             <option <?=$itemPerPage==4?"selected":""?> value="4">4 items per page</option>
@@ -28,23 +21,23 @@
             <button type="submit" name="numPage" value="<?=$i?>"><?=$i?></button>
     <? endfor; ?>
     </form>
-
     <table width="100%">
-    <? if($teachers): ?>
+    <? if($applications): ?>
         <h2>ACTIVE USERS</h2>
         <tr>
             <th>Image</th>
             <th>Name</th>
             <th>Surname</th>
             <th>Username</th>
-            <? if($controller=='admin'): ?>
+            <? if($controller=='teacher'): ?>
             <th>Dni</th>
             <th>Email</th>
+            <th>Application</th>
             <? endif; ?>
         </tr>
-        <? foreach($teachers as $user): ?>
+        <? foreach($applications as $application): ?>
+            <? $user = User::listByParameters(['username' => $application->getUsername()])[0]?>
             <tr>
-                <? $user = User::listById($user->getDni()) ?> 
                 <form enctype="multipart/form-data" method="POST" action=<?=isset($_POST['edit@'.$user->getUsername()])?"?controller=$controller&action=editUser":"?controller=$controller&action=listUsers" ?> >
                 <input type="text" name="prevDni" value=<?=$user->getDni()?> hidden>
                 <td><img src="<?=$user->getImage()?>" width="80em" height="80em"<?=isset($_POST['edit@'.$user->getUsername()])?"hidden":""?>> 
@@ -53,18 +46,31 @@
                 <td><input type="text" name="name" value=<?=$user->getName()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <td><input type="text" name="surname" value=<?=$user->getSurname()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <td><input type="text" name="username" value=<?=$user->getUsername()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
-                <? if($controller=='admin'): ?>
+                <? if($controller=='teacher'): ?>
                 <td><input type="text" name="dni" value=<?=$user->getDni()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
                 <td><input type="text" name="email" value=<?=$user->getEmail()?> <?=isset($_POST['edit@'.$user->getUsername()])?"":"disabled"?>></td>
-                <? endif; ?>
+
                 </form>
+                <td>
+                    <?if($application->getIsAccepted()==0): ?>
+                    <form action="?controller=teacher&action=acceptApplication" method="POST">
+                        <button name="id" value=<?=$application->id?>>Accept</button>
+                    </form>
+
+                    <form action="?controller=teacher&action=rejectApplication" method="POST">
+                    <button type="submit" name="id" value=<?=$application->id?>>Reject</button>
+                    </form>
+                    <? endif; ?>
+                </td>
+                <? endif; ?>
             </tr>
         <? endforeach; ?>
     <? else: ?>
-        <tr><td>THERE ARE NO ACTIVE USERS YET!</td></tr>
+        <tr><td>THERE ARE NO APPLICATIONS USERS YET!</td></tr>
     <? endif; ?>
     </table>
+    
 
     
-    </section>
+</section>
 <?php require 'includes/footer.php'; ?>

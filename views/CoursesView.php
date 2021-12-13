@@ -13,7 +13,18 @@
         </div>
     <?php endforeach; ?>
 
-
+    <form action="?controller=<?=$controller?>&action=courses" method="POST">
+        <select onchange="this.form.submit()" name="itemsPerPageActiveUsers" id="">
+            <option <?=$itemPerPage==2?"selected":""?> value="2">2 items per page</option>
+            <option <?=$itemPerPage==4?"selected":""?> value="4">4 items per page</option>
+            <option <?=$itemPerPage==6?"selected":""?> value="6">6 items per page</option>
+            <option <?=$itemPerPage==8?"selected":""?> value="8">8 items per page</option>
+            <option <?=$itemPerPage==10?"selected":""?> value="10">10 items per page</option>
+        </select>
+        <? for($i = 0; $i<$numPagesActiveUsers; $i++): ?>
+            <button type="submit" name="numPage" value="<?=$i?>"><?=$i?></button>
+    <? endfor; ?>
+    </form>
     <? if($courses): ?>
         <? foreach($courses as $course): ?>
         <h4><?=$course->getName()?></h4>

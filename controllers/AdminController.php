@@ -158,18 +158,10 @@ class AdminController extends UserController{
 
          $user->setIsActive(true);
 
-         $parameters = 
-        [
-            "users" => User::listAllActive(),
-            "unactiveUsers" => User::listAllUnactive()
-        ];
 
-         if( $messages = $user->update() ){
-            $parameters['messages'] = $messages;
-            $this->show('listUsers',$parameters);
-         }else{
+         $messages = $user->update() ;
             $this->redirect('admin','listUsers');
-         }
+         
       }else{
          $this->redirect('admin','listUsers');
       }
@@ -181,33 +173,17 @@ class AdminController extends UserController{
 
          $user = User::listByParameters(["username" => $_POST['username']])[0];
 
-         $parameters = 
-        [
-            "users" => User::listAllActive(),
-            "unactiveUsers" => User::listAllUnactive()
-        ];
-
          if( $messages = $user->delete() ){
             $parameters['messages'] = $messages;
-            $this->show('listUsers',$parameters);
-         }else{
-            $this->redirect('admin','listUsers');
          }
+            $this->redirect('admin','listUsers');
+         
       }else{
          $this->redirect('admin','listUsers');
       }
    }
 
    public function editUser(){
-      $parameters = 
-        [
-            "messages" => [],
-            "users" => User::listAllActive()
-        ];
-
-        if($this->getUserType()=='admin'){
-            $parameters["unactiveUsers"] = User::listAllUnactive();
-        }
 
       if( isset($_POST["save"]) ){
           $user = User::listById( strtoupper( filter_var($_POST["prevDni"],FILTER_SANITIZE_STRING) ));
@@ -231,11 +207,11 @@ class AdminController extends UserController{
                   $this->redirect($this->getUserType(),"listUsers");
               }else{
                       $parameters["messages"] = $messages;
-                      $this->show("listUsers",$parameters);
+                      $this->redirect("admin","listUsers",$parameters);
               }
           }else{
             $parameters["messages"] = $messages;
-            $this->show("listUsers",$parameters);
+            $this->redirect("admin","listUsers",$parameters);
           }
       }else{
           $this->redirect($this->getUserType(),"listUsers");
@@ -249,7 +225,7 @@ class AdminController extends UserController{
       $user = User::listByParameters(["username" => $username] )[0];
 
 
-      if( $message = Teacher::addTeacher($user)) $messages = $message;
+      if(!$user || $message = Teacher::addTeacher($user) ) $messages = $message;
 
       if(!$messages){
          $this->redirect($this->getUserType(),"teachers");

@@ -173,6 +173,31 @@ class DataBase {
         return $usuarios;
     }
 
+    public static function getRowsByParameterPage($table,$parameters,$desde,$numRegistros){
+        $connection = DataBase::connect();
+        $usuarios = null;
+        try{
+            $string = "";
+            $selected = "";
+            foreach ($parameters as $key => $value) {
+                $string.= "$key=:$key AND";
+            }
+            $string = substr($string,0,-3);
+
+            $sql = "SELECT * FROM $table WHERE $string LIMIT $numRegistros OFFSET $desde";
+            $query = $connection->prepare($sql); 
+            $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $table);
+            $query->execute($parameters);
+            
+            $usuarios = $query->fetchAll();
+            
+        }catch(PDOException $ex){
+
+        }
+
+        return $usuarios;
+    }
+
     public static function getAll($table){
         $connection = DataBase::connect();
         $usuarios = null;
@@ -192,7 +217,43 @@ class DataBase {
         return $usuarios;
     }
 
-    
+    public static function getAllTable($table,$start,$numRegisters){
+        $connection = DataBase::connect();
+        $usuarios = null;
+        try{
+
+            $sql = "SELECT * FROM $table LIMIT $numRegisters OFFSET $start";
+            $query = $connection->prepare($sql); 
+            $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $table);
+            $query->execute();
+            
+            $usuarios = $query->fetchAll();
+            
+        }catch(PDOException $ex){
+
+        }
+
+        return $usuarios;
+    }
+
+    public static function getAllPage($table,$desde,$numRegistros){
+        $connection = DataBase::connect();
+        $usuarios = null;
+        try{
+
+            $sql = "SELECT * FROM $table LIMIT $numRegistros OFFSET $desde";
+            $query = $connection->prepare($sql); 
+            $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $table);
+            $query->execute();
+            
+            $usuarios = $query->fetchAll();
+            
+        }catch(PDOException $ex){
+
+        }
+
+        return $usuarios;
+    }
 
     
 }

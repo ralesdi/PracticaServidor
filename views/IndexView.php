@@ -11,8 +11,8 @@
       </div>
       <? foreach($courses as $course): ?> 
          <h3><?=$course->getName()?></h3>
-         <form action="?controller=<?=$controller?>&action=ApplicationList">
-            <input type="submit" value="Entrar">
+         <form action="?controller=<?=$controller?>&action=ApplicationList" method="POST">
+            <button name="courseName" value="<?=$course->getName()?>">Entrar</button>
          </form>
       <? endforeach;?>
    </div>

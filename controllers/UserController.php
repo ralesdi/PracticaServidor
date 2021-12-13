@@ -92,11 +92,31 @@ class UserController extends BaseController{
      }
 
     public function courses(){
-        $parameters = [
+        $start = 0;
+        $numRegisters= 2;
+        
+        if($_POST['itemsPerPageActiveUsers']){
+            $numRegisters = $_POST['itemsPerPageActiveUsers'];
+        }
+
+
+        if($_POST['numPage']){
+            $start = $_POST['numPage']*$numRegisters;
+        }
+
+        $numPages = Course::pages($numRegisters);
+
+
+        $parameters = 
+        [
             "messages" => [],
-            "courses" => Course::listAll(),
+            "numPagesActiveUsers" => $numPages,
+            "itemPerPage" => $numRegisters,
+            "numPage" => $_POST['numPage'],
+            "courses" => Course::listAllPages($start,$numRegisters),
             "applications" => Application::listByParameters(['username' => $this->user->getUsername()])
         ];
+            
 
         $this->show("courses",$parameters);
     }
@@ -136,23 +156,73 @@ class UserController extends BaseController{
     }
 
     public function listUsers(){
+
+        $start = 0;
+        $numRegisters= 2;
+        
+        if($_POST['itemsPerPageActiveUsers']){
+            $numRegisters = $_POST['itemsPerPageActiveUsers'];
+        }
+
+
+        if($_POST['numPage']){
+            $start = $_POST['numPage']*$numRegisters;
+        }
+
+        $numPages = User::pagesActive($numRegisters);
+
+
         $parameters = 
         [
             "messages" => [],
-            "users" => User::listAllActive()
+            "users" => User::listAllActive($start,$numRegisters),
+            "numPagesActiveUsers" => $numPages,
+            "itemPerPage" => $numRegisters,
+            "numPage" => $_POST['numPage']
         ];
 
         if($this->getUserType()=='admin'){
-            $parameters["unactiveUsers"] = User::listAllUnactive();
+            $startU = 0;
+            $numRegistersU= 2;
+            if($_POST['itemsPerPageUnactiveUsers']){
+                $numRegistersU = $_POST['itemsPerPageUnactiveUsers'];
+            }
+    
+            if($_POST['numPageU']){
+                $startU = $_POST['numPage']*$numRegisters;
+            }
+            $numPagesU = User::pagesActive($numRegisters);
+            $parameters['numPagesUnactiveUsers'] = $numPagesU;
+            $parameters["unactiveUsers"] = User::listAllUnactive($startU,$numRegistersU);
+            $parameters['numPageU'] = $_POST['numPageU']?:0;
         }
 
         $this->show('listUsers',$parameters);
     }
 
     public function teachers(){
-        $parameters = [
-           "teachers" => Teacher::listAll(),
-           "messages" => []
+        $start = 0;
+        $numRegisters= 2;
+        
+        if($_POST['itemsPerPageActiveUsers']){
+            $numRegisters = $_POST['itemsPerPageActiveUsers'];
+        }
+
+
+        if($_POST['numPage']){
+            $start = $_POST['numPage']*$numRegisters;
+        }
+
+        $numPages = Teacher::pages($numRegisters);
+
+
+        $parameters = 
+        [
+            "messages" => [],
+            "teachers" => Teacher::listAllPages($start,$numRegisters),
+            "numPagesActiveUsers" => $numPages,
+            "itemPerPage" => $numRegisters,
+            "numPage" => $_POST['numPage']
         ];
   
         $this->show('teachers',$parameters);
@@ -170,15 +240,27 @@ class UserController extends BaseController{
         if(!$messages){
             $this->redirect($this->getUserType(),"courses");
         }else{
-            
+        
             $parameters = [
                 "messages" => $messages,
                 "courses" => Course::listAll()
             ];
-            $this->show('courses',$parameters);
+            $this->redirect($this->getUserType(),'courses',$parameters);
             
         }
      }
+
+     public function ApplicationList(){
+         
+        $parameters = 
+        [
+            "messages" => [],
+            "courseApp" => $_POST['courseName'],
+            "applications" => Application::listByParameters(['courseName' => $_POST['courseName']]),
+        ];
+
+        $this->show('applicationList',$parameters);
+    }
 
 
 

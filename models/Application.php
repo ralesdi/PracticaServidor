@@ -5,12 +5,12 @@ class Application extends DataBaseModel{
     protected $date;
     protected $isAccepted;
 
-    public function __construct($courseName="",$username="")
+    public function __construct($courseName="",$username="",$date=null,$isAccepted=0)
     {
         $this->courseName = $courseName;
         $this->username = $username;
-        $this->date = (new DateTime())->format('Y-m-d H:i:s');
-        $this->isAccepted = 0;
+        $this->date = $date?:(new DateTime())->format('Y-m-d H:i:s');
+        $this->isAccepted = $isAccepted;
     }
 
     public function validcourseName(){
@@ -54,6 +54,86 @@ class Application extends DataBaseModel{
         }
 
         return $courses;
+    }
+
+    /**
+     * Get the value of courseName
+     */ 
+    public function getCourseName()
+    {
+        return $this->courseName;
+    }
+
+    /**
+     * Set the value of courseName
+     *
+     * @return  self
+     */ 
+    public function setCourseName($courseName)
+    {
+        $this->courseName = $courseName;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of username
+     */ 
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set the value of username
+     *
+     * @return  self
+     */ 
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of date
+     */ 
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set the value of date
+     *
+     * @return  self
+     */ 
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isAccepted
+     */ 
+    public function getIsAccepted()
+    {
+        return $this->isAccepted;
+    }
+
+    /**
+     * Set the value of isAccepted
+     *
+     * @return  self
+     */ 
+    public function setIsAccepted($isAccepted)
+    {
+        $this->isAccepted = $isAccepted;
+
+        return $this;
     }
 }
 

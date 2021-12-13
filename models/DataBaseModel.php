@@ -80,6 +80,17 @@ abstract class DataBaseModel{
         return DataBase::getNumberOfRows(get_called_class());
     }
 
+    public static function listAllPages($start,$numRegisters){
+        
+        return DataBase::getAllPage(get_called_class(),$start,$numRegisters);
+    }
+
+    public static function pages($itemsPerPage){
+        $num = count(DataBase::getAll(get_called_class()));
+        $pages =  ceil($num/$itemsPerPage);
+        return $pages;
+    }
+
     
 }
 
