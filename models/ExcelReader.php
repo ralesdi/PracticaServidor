@@ -1,8 +1,10 @@
 <?php
-require_once LIBRARY_FOLDER . 'phpExcell/PHPExcel/IOFactory.php';
+require LIBRARY_FOLDER . 'phpoffice/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
 class ExcelReader{
     public static function ExcelToStudents($url){
-        $excel = PHPExcel_IOFactory::load($url);
+        $excel = IOFactory::load($url);
         $sheetData = $excel->getActiveSheet()->toArray(null,true,true,true);
 
         echo count($sheetData);
