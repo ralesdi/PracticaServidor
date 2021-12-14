@@ -29,8 +29,7 @@ $connection = new PDO("mysql:host=$location;dbname=$database",$username,$passwor
 $script = fopen("academia.sql", "r");
 
 $sql = fread($script,filesize("academia.sql"));
-
 $connection->prepare($sql)->execute();
 
-head("Location: ../index.php");
+header("Location: ../index.php");
 ?>

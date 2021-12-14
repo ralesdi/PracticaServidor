@@ -19,6 +19,7 @@
         </div>
         
     </form>
+    <h6>AVISO! LA BASE DE DATOS DEBE ESTAR VACIA!</h6>
 </body>
 </section>
 <?php require VIEWS_FOLDER . 'includes/footer.php'; ?>
