@@ -2,13 +2,24 @@
 require_once LIBRARY_FOLDER . "fpdf/fpdf.php";
 class PDF extends FPDF
 {
-    private $title;
+    private $title;    
+    /**
+     * __construct
+     *
+     * @param  mixed $title
+     * @return void
+     */
     public function __construct($title="")
     {
         parent::__construct();
         $this->title = $title;
     }
-    // Funcion encargado de realizar el encabezado
+    // Funcion encargado de realizar el encabezado    
+    /**
+     * Header
+     *
+     * @return void
+     */
     public function Header()
     {
         // Logo
@@ -21,7 +32,12 @@ class PDF extends FPDF
         // Line break
         $this->Ln(20);
     }
-    // Funcion pie de pagina
+    // Funcion pie de pagina    
+    /**
+     * Footer
+     *
+     * @return void
+     */
     public function Footer()
     {
         // Position at 1.5 cm from bottom
@@ -31,7 +47,15 @@ class PDF extends FPDF
         // Page number
         $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
-
+    
+    /**
+     * Print
+     *
+     * @param  mixed $objects
+     * @param  mixed $title
+     * @param  mixed $sensitiveInformation
+     * @return void
+     */
     public static function Print($objects,$title,$sensitiveInformation){
         $pdf = new PDF($title);
         $pdf->AddPage();

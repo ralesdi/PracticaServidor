@@ -62,7 +62,7 @@
                 </form>
                 <td>
                     <form action="?controller=admin&action=activateUser" method="POST">
-                    <input type="text" name="numPageU" value="<?=$numPage?>" hidden>
+                    <input type="text" name="numPageU" value="<?=$numPageU?>" hidden>
                     <button type="submit" name="username" value=<?=$user->getUsername()?>>^</button>
                     </form>
                 </td>
@@ -78,7 +78,8 @@
             </tr>
         <?php endforeach; ?>
     <?php else: ?>
-        <tr><td>THERE ARE NO UNACTIVE USERS YET!</td></tr>
+        <?= $controller=="admin"?"<tr><td>THERE ARE NO UNACTIVE USERS YET!</td></tr>":"";  ?>
+        
     <?php endif; ?>
     </table>
     <h2>ACTIVE USERS</h2>

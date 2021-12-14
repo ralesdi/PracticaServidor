@@ -21,7 +21,7 @@
 
     <a target="_BLANK" href="?controller=<?=$controller?>&action=pdfDirectMessages"><button class="btn btn-primary btn-lg round" >Print</button></a>
 
-    <?php if($directMessages): ?>
+    <?php if(isset($directMessages)): ?>
         <?php foreach($directMessages as $directMessage): ?>
             <div class="card color m-auto w-25 mt-5 mb-5">
                 <div class="card-header text-start">

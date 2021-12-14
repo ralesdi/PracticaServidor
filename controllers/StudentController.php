@@ -7,7 +7,12 @@ require_once CONTROLLERS_FOLDER.'UserController.php';
 require_once MODELS_FOLDER . 'Student.php';
 class StudentController extends UserController{
 
-
+   
+   /**
+    * index
+    *
+    * @return void
+    */
    public function index()
    {
       $parameters = [

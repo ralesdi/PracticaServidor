@@ -12,7 +12,12 @@ require_once MODELS_FOLDER . 'pdf.php';
 
 class UserController extends BaseController{
     protected $user;
-
+    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
    {
       session_start();   // Todos los métodos de este controlador requieren autenticación
@@ -23,7 +28,12 @@ class UserController extends BaseController{
           $this->user = $_SESSION['user'];
       }
    }
-
+   
+   /**
+    * getUserType
+    *
+    * @return void
+    */
    protected function getUserType(){
        $type = "student";
      if(Teacher::isTeacher($this->user)){
@@ -34,12 +44,22 @@ class UserController extends BaseController{
 
      return $type;
    }
-
+   
+   /**
+    * index
+    *
+    * @return void
+    */
    public function index()
    {
         $this->redirect($this->getUserType(),"index");
    }
-
+   
+   /**
+    * profile
+    *
+    * @return void
+    */
    public function profile(){
     $parameters = [
         "user" => $this->user,
@@ -48,7 +68,12 @@ class UserController extends BaseController{
     
     $this->show("profile",$parameters);
     }
-
+    
+    /**
+     * saveProfileChanges
+     *
+     * @return void
+     */
     public function saveProfileChanges(){
         $parameters = [
             "user" => $this->user
@@ -94,7 +119,12 @@ class UserController extends BaseController{
         }
         
      }
-
+    
+    /**
+     * courses
+     *
+     * @return void
+     */
     public function courses(){
         $start = 0;
         $numRegisters= 2;
@@ -125,7 +155,12 @@ class UserController extends BaseController{
 
         $this->show("courses",$parameters);
     }
-
+    
+    /**
+     * directMessages
+     *
+     * @return void
+     */
     public function directMessages(){
         $parameters = [
             "messages" => [],
@@ -135,7 +170,12 @@ class UserController extends BaseController{
 
         $this->show("directMessages",$parameters);
     }
-
+    
+    /**
+     * sendMessage
+     *
+     * @return void
+     */
     public function sendMessage(){
 
         if( isset($_POST['send']) ){
@@ -159,7 +199,12 @@ class UserController extends BaseController{
             $this->redirect($this->getUserType(),'DirectMessages');
         }
     }
-
+    
+    /**
+     * listUsers
+     *
+     * @return void
+     */
     public function listUsers(){
 
         $start = 0;
@@ -193,20 +238,25 @@ class UserController extends BaseController{
             if(isset($_POST['itemsPerPageUnactiveUsers'])){
                 $numRegistersU = $_POST['itemsPerPageUnactiveUsers'];
             }
-    
+            $numPageU = 0;
             if(isset($_POST['numPageU'])){
-                $startU = $_POST['numPage']*$numRegisters;
-                $numPage = $_POST['numPageU'];
+                $startU = $_POST['numPageU']*$numRegistersU;
+                $numPageU = $_POST['numPageU'];
             }
-            $numPagesU = User::pagesActive($numRegisters);
+            $numPagesU = User::pagesUnactive($numRegistersU);
             $parameters['numPagesUnactiveUsers'] = $numPagesU;
             $parameters["unactiveUsers"] = User::listAllUnactive($startU,$numRegistersU);
-            $parameters['numPageU'] = $numPage;
+            $parameters['numPageU'] = $numPageU;
         }
 
         $this->show('listUsers',$parameters);
     }
-
+    
+    /**
+     * teachers
+     *
+     * @return void
+     */
     public function teachers(){
         $start = 0;
         $numRegisters= 2;
@@ -235,7 +285,12 @@ class UserController extends BaseController{
   
         $this->show('teachers',$parameters);
      }
-
+     
+     /**
+      * applicate
+      *
+      * @return void
+      */
      public function applicate(){
         
 
@@ -257,7 +312,12 @@ class UserController extends BaseController{
             
         }
      }
-
+     
+     /**
+      * ApplicationList
+      *
+      * @return void
+      */
      public function ApplicationList(){
          
         $parameters = 
@@ -269,27 +329,57 @@ class UserController extends BaseController{
 
         $this->show('applicationList',$parameters);
     }
-
+    
+    /**
+     * pdfUsers
+     *
+     * @return void
+     */
     public function pdfUsers(){
         PDF::Print(User::listAll(),"List of users", $this->getUserType()=='admin');
     }
-
+    
+    /**
+     * pdfCourses
+     *
+     * @return void
+     */
     public function pdfCourses(){
         PDF::Print(Course::listAll(),"List of courses", $this->getUserType()=='admin');
     }
-
+    
+    /**
+     * pdfTeachers
+     *
+     * @return void
+     */
     public function pdfTeachers(){
         PDF::Print(Teacher::listAll(),"List of teachers", $this->getUserType()=='admin');
     }
-
+    
+    /**
+     * pdfDirectMessages
+     *
+     * @return void
+     */
     public function pdfDirectMessages(){
         PDF::Print(DirectMessage::listAll(),"List of messages", $this->getUserType()=='admin');
     }
-
+    
+    /**
+     * pdfApplications
+     *
+     * @return void
+     */
     public function pdfApplications(){
         PDF::Print(Application::listAll(),"List of applications", $this->getUserType()=='admin');
     }
-
+   
+   /**
+    * logout
+    *
+    * @return void
+    */
    public function logout()
    {
       session_start();

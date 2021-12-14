@@ -1,7 +1,7 @@
 <?php require 'includes/header.php'; ?>
 <?php require 'includes/navauth.php'; ?>
 <section class="page-section pt-5 text-center">
-    <div class="m-5 p-5>
+    <div class="m-5 p-5">
     <a target="_BLANK" href="?controller=<?=$controller?>&action=pdfCourses"><button class="btn btn-primary btn-lg">Print</button></a>
         <?php if($controller=="admin"): ?>
         <a href="?controller=admin&action=createCourse"><button class="btn btn-primary btn-lg">Add Course</button></a>

@@ -1,10 +1,21 @@
 <?php
-class InitializationController{
+class InitializationController{   
+   /**
+    * main
+    *
+    * @return void
+    */
    static function main(){
       //Requiere archivos con configuraciones.
       foreach (glob('config/*.php') as $filename) {
          require_once "$filename";
       }
+
+      //Comprobamos que la base de datos funcione
+
+      if(!file_exists(CONFIG_FOLDER . 'database.php')){
+         require_once INSTALATION_FOLDER . 'install.php';
+      }else{
 
       //Formamos el nombre del Controlador o el controlador por defecto
       if (!empty($_GET['controller'])) {
@@ -37,6 +48,7 @@ class InitializationController{
       //  y llamamos a la accion
       $controller = new $controller();
       $controller->$action();
+      }
     }
 }
 

@@ -10,6 +10,7 @@ define('PHOTOS_FOLDER', 'photos/');
 define('LIBRARY_FOLDER', 'lib/');
 define('FILES_FOLDER', 'files/');
 define('CONFIG_FOLDER', 'config/');
+define('INSTALATION_FOLDER', 'install/');
 
 define('DEFAULT_CONTROLLER', 'Index');
 define('DEFAULT_ACTION', 'index');
