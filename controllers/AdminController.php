@@ -6,7 +6,6 @@
 require_once CONTROLLERS_FOLDER.'UserController.php';
 require_once MODELS_FOLDER . 'Admin.php';
 require_once MODELS_FOLDER . 'Teacher.php';
-require_once MODELS_FOLDER . 'ExcelReader.php';
 class AdminController extends UserController{
    
    /**
