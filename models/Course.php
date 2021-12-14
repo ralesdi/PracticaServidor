@@ -2,6 +2,7 @@
 
 require_once MODELS_FOLDER . "DataBase.php";
 require_once MODELS_FOLDER . "DataBaseModel.php";
+require_once MODELS_FOLDER . "User.php";
 class Course extends DataBaseModel
 {
     protected $name;
@@ -148,6 +149,10 @@ class Course extends DataBaseModel
     public function getTeacher()
     {
         return $this->teacher;
+    }
+
+    public function getTeacherObject(){
+        return User::listById($this->teacher);
     }
 
     /**

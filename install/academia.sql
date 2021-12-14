@@ -27,6 +27,8 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `Admin`
 --
 
+CREATE DATABASE `academia`;
+
 CREATE TABLE `Admin` (
   `dni` char(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

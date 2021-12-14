@@ -6,15 +6,15 @@
         Name: <input name="name" type="text" required> <br>
         Description: <input name="description" type="text" required> <br>
         Teacher:
-        <? if($teachers):?>
+        <?php if($teachers):?>
             <select name="teacher" >
-            <? foreach($teachers as $teacher): ?>
+            <?php foreach($teachers as $teacher): ?>
                 <option value="<?=$teacher->getDni()?>"><?=$teacher->getDni()." - ".$teacher->getName()." ".$teacher->getSurname()?></option>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </select>
-        <? else: ?>
+        <?php else: ?>
             There are no teachers in the academy
-        <? endif;?> <br>
+        <?php endif;?> <br>
         Start Date: <input name="startDate" type="datetime-local" required> <br>
         End Date: <input name="endDate" type="datetime-local" required> <br>
         Application Deadline: <input name="applicationDeadline" type="datetime-local" required> <br>

@@ -44,6 +44,9 @@ class PDF extends FPDF
         
         //Declaramos el encabezado de la tabla
         foreach ($vars as $key => $value) {
+            if(!isset($width[$key])){
+                $width[$key] = 14;
+            }
             $pdf->Cell($width[$key], 12, $key, 1);
         }
 

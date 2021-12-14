@@ -4,7 +4,7 @@
  */
 
 define('DBDRIVER', 'mysql');
-define('DBHOST', '192.168.64.2');
+define('DBHOST', 'localhost');
 define('DBNAME', 'academia');
 define('DBUSER', 'administrador');
 define('DBPASS', '');

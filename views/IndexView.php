@@ -9,12 +9,12 @@
          <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
          <div class="divider-custom-line"></div>
       </div>
-      <? foreach($courses as $course): ?> 
+      <?php foreach($courses as $course): ?> 
          <h3><?=$course->getName()?></h3>
          <form action="?controller=<?=$controller?>&action=ApplicationList" method="POST">
             <button name="courseName" value="<?=$course->getName()?>">Entrar</button>
          </form>
-      <? endforeach;?>
+      <?php endforeach;?>
    </div>
 </section>
 <?php require 'includes/footer.php'; ?>

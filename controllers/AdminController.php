@@ -23,7 +23,7 @@ class AdminController extends UserController{
    public function index()
    {
       $parameters = [
-         "tituloventana" => "Bienvenid@, ".$this->user->getName()."!",
+         "tituloventana" => "Bienvenid@, ADMIN!",
          "courses" => []
       ];
 

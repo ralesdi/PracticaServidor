@@ -96,13 +96,14 @@ class UserController extends BaseController{
         $start = 0;
         $numRegisters= 2;
         
-        if($_POST['itemsPerPageActiveUsers']){
+        if( isset($_POST['itemsPerPageActiveUsers'])){
             $numRegisters = $_POST['itemsPerPageActiveUsers'];
         }
 
-
-        if($_POST['numPage']){
+        $numPage = 0;
+        if( isset($_POST['numPage'])){
             $start = $_POST['numPage']*$numRegisters;
+            $numPage =$_POST['numPage'];
         }
 
         $numPages = Course::pages($numRegisters);
@@ -113,7 +114,7 @@ class UserController extends BaseController{
             "messages" => [],
             "numPagesActiveUsers" => $numPages,
             "itemPerPage" => $numRegisters,
-            "numPage" => $_POST['numPage'],
+            "numPage" => $numPage,
             "courses" => Course::listAllPages($start,$numRegisters),
             "applications" => Application::listByParameters(['username' => $this->user->getUsername()])
         ];
@@ -161,13 +162,14 @@ class UserController extends BaseController{
         $start = 0;
         $numRegisters= 2;
         
-        if($_POST['itemsPerPageActiveUsers']){
+        if( isset($_POST['itemsPerPageActiveUsers'])){
             $numRegisters = $_POST['itemsPerPageActiveUsers'];
         }
 
-
-        if($_POST['numPage']){
+        $numPage = 0;
+        if( isset($_POST['numPage'])){
             $start = $_POST['numPage']*$numRegisters;
+            $numPage = $_POST['numPage'];
         }
 
         $numPages = User::pagesActive($numRegisters);
@@ -179,23 +181,24 @@ class UserController extends BaseController{
             "users" => User::listAllActive($start,$numRegisters),
             "numPagesActiveUsers" => $numPages,
             "itemPerPage" => $numRegisters,
-            "numPage" => $_POST['numPage']
+            "numPage" => $numPage
         ];
 
         if($this->getUserType()=='admin'){
             $startU = 0;
             $numRegistersU= 2;
-            if($_POST['itemsPerPageUnactiveUsers']){
+            if(isset($_POST['itemsPerPageUnactiveUsers'])){
                 $numRegistersU = $_POST['itemsPerPageUnactiveUsers'];
             }
     
-            if($_POST['numPageU']){
+            if(isset($_POST['numPageU'])){
                 $startU = $_POST['numPage']*$numRegisters;
+                $numPage = $_POST['numPageU'];
             }
             $numPagesU = User::pagesActive($numRegisters);
             $parameters['numPagesUnactiveUsers'] = $numPagesU;
             $parameters["unactiveUsers"] = User::listAllUnactive($startU,$numRegistersU);
-            $parameters['numPageU'] = $_POST['numPageU']?:0;
+            $parameters['numPageU'] = $numPage;
         }
 
         $this->show('listUsers',$parameters);
@@ -205,13 +208,14 @@ class UserController extends BaseController{
         $start = 0;
         $numRegisters= 2;
         
-        if($_POST['itemsPerPageActiveUsers']){
+        if(isset($_POST['itemsPerPageActiveUsers'])){
             $numRegisters = $_POST['itemsPerPageActiveUsers'];
         }
 
-
-        if($_POST['numPage']){
+        $numPage = 0;
+        if(isset($_POST['numPage'])){
             $start = $_POST['numPage']*$numRegisters;
+            $numPage = $_POST['numPage'];
         }
 
         $numPages = Teacher::pages($numRegisters);
@@ -223,7 +227,7 @@ class UserController extends BaseController{
             "teachers" => Teacher::listAllPages($start,$numRegisters),
             "numPagesActiveUsers" => $numPages,
             "itemPerPage" => $numRegisters,
-            "numPage" => $_POST['numPage']
+            "numPage" => $numPage
         ];
   
         $this->show('teachers',$parameters);
