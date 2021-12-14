@@ -46,7 +46,6 @@ class IndexController extends BaseController
       ];
 
       if( isset($_COOKIE["dni"]) ){
-         echo "HOLA";
          $parametros["dni"] = $_COOKIE["dni"];
       }
 

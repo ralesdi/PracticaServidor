@@ -1,9 +1,9 @@
 <?php require 'includes/header.php'; ?>
 <?php require 'includes/navauth.php'; ?>
-<section class="page-section pt-5">
+<section class="page-section pt-5 text-center">
 
     <form action="?controller=admin&action=updateCourse" method="POST">
-        <div class="card w-50 m-auto p-3">
+        <div class="card w-50 m-auto p-3 color">
         Name: <input class="form-control"  value="<?=$course->getName()?>" type="text" required disabled> <br> <input name="name" value="<?=$course->getName()?>" type="text" required hidden>
         Description: <input class="form-control" name="description" value="<?=$course->getDescription()?>" type="text" required> <br>
         Teacher:
@@ -26,7 +26,7 @@
                     
         </div>
     </form>
-        <a href="?controller=admin&action=courses"><button>Back</button></a>
+        <a href="?controller=admin&action=courses"><button class="btn btn-primary btn-large round">Back</button></a>
 
     <?php foreach ($messages as $message) : ?>
         <div class="alert alert-<?= $message["type"] ?> alert-dismissible fade show" role="alert">
