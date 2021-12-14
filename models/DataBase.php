@@ -6,7 +6,13 @@ class DataBase {
     private static $dbUser = 'administrador';
     private static $dbPass= '';
     */
-
+    
+    /**
+     * parametersToList
+     *
+     * @param  mixed $parameters
+     * @return void
+     */
     private static function parametersToList($parameters){
         $string[0] = "";
         $string[1] = "";
@@ -20,7 +26,12 @@ class DataBase {
 
         return $string;
     }
-
+    
+    /**
+     * connect
+     *
+     * @return void
+     */
     public static function connect(){
         try{
             //Se conecta a la base de datos
@@ -32,7 +43,14 @@ class DataBase {
         }
         return $connection;
     }
-
+    
+    /**
+     * insert
+     *
+     * @param  mixed $table
+     * @param  mixed $parameters
+     * @return void
+     */
     public static function insert($table,$parameters){ // INSERRT INTO USER('')
         $connection = DataBase::connect();
         $message = [];
@@ -54,7 +72,15 @@ class DataBase {
 
           return $message;
     }
-
+    
+    /**
+     * update
+     *
+     * @param  mixed $table
+     * @param  mixed $parameters
+     * @param  mixed $PrimaryKeys
+     * @return void
+     */
     public static function update($table,$parameters,$PrimaryKeys){
         $connection = DataBase::connect();
         $message = [];
@@ -85,7 +111,14 @@ class DataBase {
 
         return $message;
     }
-
+    
+    /**
+     * delete
+     *
+     * @param  mixed $table
+     * @param  mixed $PrimaryKeys
+     * @return void
+     */
     public static function delete($table,$PrimaryKeys){
         $connection = DataBase::connect();
         $parameters = $PrimaryKeys;
@@ -108,7 +141,13 @@ class DataBase {
         }
         return $message;
     }
-
+    
+    /**
+     * getNumberOfRows
+     *
+     * @param  mixed $table
+     * @return void
+     */
     public static function getNumberOfRows($table){
         $connection = DataBase::connect();
         $number = 0;
@@ -124,7 +163,14 @@ class DataBase {
 
         return $number;
     }
-
+    
+    /**
+     * getNumberOfRowsByParameters
+     *
+     * @param  mixed $table
+     * @param  mixed $parameters
+     * @return void
+     */
     public static function getNumberOfRowsByParameters($table,$parameters){
         $connection = DataBase::connect();
         $number = 0;
@@ -147,7 +193,14 @@ class DataBase {
         return $number;
 
     }
-
+    
+    /**
+     * getRowsByParameter
+     *
+     * @param  mixed $table
+     * @param  mixed $parameters
+     * @return void
+     */
     public static function getRowsByParameter($table,$parameters){
         $connection = DataBase::connect();
         $usuarios = null;
@@ -172,7 +225,16 @@ class DataBase {
 
         return $usuarios;
     }
-
+    
+    /**
+     * getRowsByParameterPage
+     *
+     * @param  mixed $table
+     * @param  mixed $parameters
+     * @param  mixed $desde
+     * @param  mixed $numRegistros
+     * @return void
+     */
     public static function getRowsByParameterPage($table,$parameters,$desde,$numRegistros){
         $connection = DataBase::connect();
         $usuarios = null;
@@ -197,7 +259,13 @@ class DataBase {
 
         return $usuarios;
     }
-
+    
+    /**
+     * getAll
+     *
+     * @param  mixed $table
+     * @return void
+     */
     public static function getAll($table){
         $connection = DataBase::connect();
         $usuarios = null;
@@ -216,7 +284,15 @@ class DataBase {
 
         return $usuarios;
     }
-
+    
+    /**
+     * getAllTable
+     *
+     * @param  mixed $table
+     * @param  mixed $start
+     * @param  mixed $numRegisters
+     * @return void
+     */
     public static function getAllTable($table,$start,$numRegisters){
         $connection = DataBase::connect();
         $usuarios = null;
@@ -235,7 +311,15 @@ class DataBase {
 
         return $usuarios;
     }
-
+    
+    /**
+     * getAllPage
+     *
+     * @param  mixed $table
+     * @param  mixed $desde
+     * @param  mixed $numRegistros
+     * @return void
+     */
     public static function getAllPage($table,$desde,$numRegistros){
         $connection = DataBase::connect();
         $usuarios = null;

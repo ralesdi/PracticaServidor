@@ -14,7 +14,12 @@ class Course extends DataBaseModel
     protected $length;
     protected $cost;
     protected $maxStudents;
-    
+        
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct(
         $name = "",
         $description = "",
@@ -36,7 +41,12 @@ class Course extends DataBaseModel
         $this->cost = $cost;
         $this->maxStudents = $maxStudents;
     }
-
+    
+    /**
+     * validName
+     *
+     * @return void
+     */
     public function validName(){
         $message = null;
 
@@ -46,7 +56,12 @@ class Course extends DataBaseModel
 
         return $message;
     }
-
+    
+    /**
+     * validDescription
+     *
+     * @return void
+     */
     public function validDescription(){
         $message = null;
 
@@ -56,7 +71,12 @@ class Course extends DataBaseModel
 
         return $message;
     }
-
+    
+    /**
+     * validTeacher
+     *
+     * @return void
+     */
     public function validTeacher(){
         $message = null;
 
@@ -66,7 +86,12 @@ class Course extends DataBaseModel
 
         return $message;
     }
-
+    
+    /**
+     * validStartDate
+     *
+     * @return void
+     */
     public function validStartDate(){
         $message = null;
 
@@ -76,7 +101,12 @@ class Course extends DataBaseModel
 
         return $message;
     }
-
+    
+    /**
+     * validEndDate
+     *
+     * @return void
+     */
     public function validEndDate(){
         $message = null;
 
@@ -86,7 +116,12 @@ class Course extends DataBaseModel
 
         return $message;
     }
-
+    
+    /**
+     * validApplicationDeadline
+     *
+     * @return void
+     */
     public function validApplicationDeadline(){
         $message = null;
 
@@ -96,7 +131,12 @@ class Course extends DataBaseModel
 
         return $message;
     }
-
+    
+    /**
+     * validLength
+     *
+     * @return void
+     */
     public function validLength(){
         $message = null;
 
@@ -106,7 +146,12 @@ class Course extends DataBaseModel
 
         return $message;
     }
-
+    
+    /**
+     * validCost
+     *
+     * @return void
+     */
     public function validCost(){
         $message = null;
 
@@ -116,7 +161,12 @@ class Course extends DataBaseModel
 
         return $message;
     }
-
+    
+    /**
+     * validMaxStudents
+     *
+     * @return void
+     */
     public function validMaxStudents(){
         $message = null;
 
@@ -306,11 +356,22 @@ class Course extends DataBaseModel
 
         return $this;
     }
-
+    
+    /**
+     * getCourses
+     *
+     * @param  mixed $teacher
+     * @return void
+     */
     public static function getCourses($teacher){
         return Course::listByParameters(["teacher" => $teacher->getDni()]);
     }
-
+    
+    /**
+     * getWidths
+     *
+     * @return void
+     */
     public static function getWidths(){
         $widths = [
              "name" => 20,

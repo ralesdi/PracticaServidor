@@ -1,6 +1,13 @@
 <?php
 class BaseController{
-
+   
+   /**
+    * uploadImage
+    *
+    * @param  mixed $image
+    * @param  mixed $url
+    * @return void
+    */
    public function uploadImage($image,&$url){
       $message = [];
       try {
@@ -70,7 +77,14 @@ class BaseController{
 
      return $message;
    }
-
+   
+   /**
+    * uploadExcel
+    *
+    * @param  mixed $image
+    * @param  mixed $url
+    * @return void
+    */
    public function uploadExcel($image,&$url){
       $message = [];
       try {
@@ -132,7 +146,14 @@ class BaseController{
 
      return $message;
    }
-    
+        
+    /**
+     * show
+     *
+     * @param  mixed $name
+     * @param  mixed $vars
+     * @return void
+     */
     public static function show($name, $vars = array())
    {
       //Creamos la ruta real a la plantilla
@@ -152,7 +173,15 @@ class BaseController{
       //Finalmente, incluimos el archivo plantilla o vista
       require_once($path);
    }
-
+   
+   /**
+    * redirect
+    *
+    * @param  mixed $controlador
+    * @param  mixed $accion
+    * @param  mixed $params
+    * @return void
+    */
    public static function redirect($controlador = DEFAULT_CONTROLLER, $accion = DEFAULT_ACTION, $params = null)
    {
       if ($params != null) {

@@ -8,8 +8,11 @@ require_once MODELS_FOLDER . 'Admin.php';
 require_once MODELS_FOLDER . 'DirectMessage.php';
 require_once MODELS_FOLDER . 'Application.php';
 require_once MODELS_FOLDER . 'pdf.php';
+
+
 class UserController extends BaseController{
     protected $user;
+
     public function __construct()
    {
       session_start();   // Todos los métodos de este controlador requieren autenticación

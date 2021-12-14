@@ -4,7 +4,16 @@ class DirectMessage extends DataBaseModel{
     protected $receiver;
     protected $content;
     protected $sendingDateTime;
-
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $sender
+     * @param  mixed $receiver
+     * @param  mixed $content
+     * @param  mixed $sendingDateTime
+     * @return void
+     */
     public function __construct($sender="",$receiver="",$content="",$sendingDateTime=null)
     {
         $this->sender = strtolower( filter_var($sender,FILTER_SANITIZE_STRING) );
@@ -12,19 +21,39 @@ class DirectMessage extends DataBaseModel{
         $this->content = filter_var($content,FILTER_SANITIZE_STRING);
         $this->sendingDateTime =  filter_var($sendingDateTime,FILTER_SANITIZE_STRING);
     }
-
+    
+    /**
+     * validSender
+     *
+     * @return void
+     */
     public function validSender(){
         return DataBaseModel::valid("/^[a-z0-9]{3,15}$/",$this->sender,"Sender error");
     }
-
+    
+    /**
+     * validReceiver
+     *
+     * @return void
+     */
     public function validReceiver(){
         return DataBaseModel::valid("/^[a-z0-9]{3,15}$/",$this->receiver,"Receiver error");
     }
-
+    
+    /**
+     * validContent
+     *
+     * @return void
+     */
     public function validContent(){
         return null;
     }
-
+    
+    /**
+     * validsendingDateTime
+     *
+     * @return void
+     */
     public function validsendingDateTime(){
         return null;
     }

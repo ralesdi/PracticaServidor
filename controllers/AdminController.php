@@ -8,7 +8,12 @@ require_once MODELS_FOLDER . 'Admin.php';
 require_once MODELS_FOLDER . 'Teacher.php';
 require_once MODELS_FOLDER . 'ExcelReader.php';
 class AdminController extends UserController{
-
+   
+   /**
+    * __construct
+    *
+    * @return void
+    */
    public function __construct()
    {
       session_start();   // Todos los métodos de este controlador requieren autenticación
@@ -19,7 +24,12 @@ class AdminController extends UserController{
          $this->user = $_SESSION['user'];
       }
    }
-
+   
+   /**
+    * index
+    *
+    * @return void
+    */
    public function index()
    {
       $parameters = [
@@ -30,7 +40,12 @@ class AdminController extends UserController{
       $parameters["courses"] = Application::getAllCoursesEnrolled($this->user->getUsername());
       $this->show("index", $parameters);
    }
-
+   
+   /**
+    * createCourse
+    *
+    * @return void
+    */
    public function createCourse()
    {
       $parameters = [
@@ -39,7 +54,12 @@ class AdminController extends UserController{
       ];
       $this->show("CreateCourse", $parameters);
    }
-
+   
+   /**
+    * validateCourse
+    *
+    * @return void
+    */
    public function validateCourse(){
     $parameters = [
         "messages" => [],
@@ -78,7 +98,12 @@ class AdminController extends UserController{
         $this->redirect('admin','createCourse');
        }
    }
-
+   
+   /**
+    * deleteCourse
+    *
+    * @return void
+    */
    public function deleteCourse(){
       if( isset($_POST['name']) ){
          $name = ucwords( filter_var($_POST['name'],FILTER_SANITIZE_STRING) );
@@ -100,7 +125,12 @@ class AdminController extends UserController{
          $this->redirect('admin','courses');
       }
    }
-
+   
+   /**
+    * editCourse
+    *
+    * @return void
+    */
    public function editCourse(){
       $name = ucwords( filter_var($_POST['name'],FILTER_SANITIZE_STRING) );
 
@@ -114,7 +144,12 @@ class AdminController extends UserController{
 
       $this->show('editCourse',$parameters);
    }
-
+   
+   /**
+    * updateCourse
+    *
+    * @return void
+    */
    public function updateCourse(){
       
       if( isset($_POST["edit"]) ){
@@ -150,7 +185,12 @@ class AdminController extends UserController{
       }
       
    }
-
+   
+   /**
+    * activateUser
+    *
+    * @return void
+    */
    public function activateUser(){
       if( isset($_POST['username']) ){
          $username = strtolower( filter_var($_POST['username'],FILTER_SANITIZE_STRING) );
@@ -167,7 +207,12 @@ class AdminController extends UserController{
          $this->redirect('admin','listUsers');
       }
    }
-
+   
+   /**
+    * deleteUser
+    *
+    * @return void
+    */
    public function deleteUser(){
       if( isset($_POST['username']) ){
          $username = strtolower( filter_var($_POST['username'],FILTER_SANITIZE_STRING) );
@@ -183,7 +228,12 @@ class AdminController extends UserController{
          $this->redirect('admin','listUsers');
       }
    }
-
+   
+   /**
+    * editUser
+    *
+    * @return void
+    */
    public function editUser(){
 
       if( isset($_POST["save"]) ){
@@ -219,7 +269,12 @@ class AdminController extends UserController{
       }
       
    }
-
+   
+   /**
+    * addTeacher
+    *
+    * @return void
+    */
    public function addTeacher(){
       $username = strtolower( filter_var( $_POST['username'], FILTER_SANITIZE_STRING) );
    
@@ -236,7 +291,12 @@ class AdminController extends UserController{
       }
    }
 
-   
+      
+   /**
+    * adminTools
+    *
+    * @return void
+    */
    public function adminTools(){
       $parameters = ["messages" => []];
 

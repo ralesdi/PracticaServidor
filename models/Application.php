@@ -4,7 +4,16 @@ class Application extends DataBaseModel{
     protected $username;
     protected $date;
     protected $isAccepted;
-
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $courseName
+     * @param  mixed $username
+     * @param  mixed $date
+     * @param  mixed $isAccepted
+     * @return void
+     */
     public function __construct($courseName="",$username="",$date=null,$isAccepted=0)
     {
         $this->courseName = $courseName;
@@ -12,23 +21,50 @@ class Application extends DataBaseModel{
         $this->date = $date?:(new DateTime())->format('Y-m-d H:i:s');
         $this->isAccepted = $isAccepted;
     }
-
+    
+    /**
+     * validcourseName
+     *
+     * @return void
+     */
     public function validcourseName(){
         return null;
     }
-
+    
+    /**
+     * validUsername
+     *
+     * @return void
+     */
     public function validUsername(){
         return null;
     }
-
+    
+    /**
+     * validDate
+     *
+     * @return void
+     */
     public function validDate(){
         return null;
     }
-
+    
+    /**
+     * validIsAccepted
+     *
+     * @return void
+     */
     public function validIsAccepted(){
         return null;
     }
-
+    
+    /**
+     * UserIsInCourse
+     *
+     * @param  mixed $username
+     * @param  mixed $courseName
+     * @return void
+     */
     public static function UserIsInCourse($username,$courseName){
 
         $applications = DataBase::getRowsByParameter(get_class(),["username" => $username]);
@@ -41,7 +77,13 @@ class Application extends DataBaseModel{
 
         return false;
     }
-
+    
+    /**
+     * getAllCoursesEnrolled
+     *
+     * @param  mixed $username
+     * @return void
+     */
     public static function getAllCoursesEnrolled($username){
 
         $applications = Application::listByParameters(["username" => $username]);

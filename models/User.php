@@ -2,6 +2,7 @@
 
 require_once MODELS_FOLDER."DataBase.php";
 require_once MODELS_FOLDER."DataBaseModel.php";
+
 class User extends DataBaseModel{
     protected $dni;
     protected $username;
@@ -22,7 +23,20 @@ class User extends DataBaseModel{
     public const MIN_CHAR_PASSWORD = 5;
     public const MAX_CHAR_PASSWORD = 30;
     
-
+        
+    /**
+     * __construct
+     *
+     * @param  mixed $dni
+     * @param  mixed $username
+     * @param  mixed $name
+     * @param  mixed $surname
+     * @param  mixed $email
+     * @param  mixed $password
+     * @param  mixed $image
+     * @param  mixed $isActive
+     * @return void
+     */
     function __construct($dni="",$username = "",$name = "",$surname = "",$email = "",$password = "",$image=PHOTOS_FOLDER."default.jpg",$isActive = 0){
         $this->dni = strtoupper(filter_var($dni,FILTER_SANITIZE_STRING));
         $this->name= ucwords(filter_var($name,FILTER_SANITIZE_STRING));
@@ -35,77 +49,177 @@ class User extends DataBaseModel{
         
     }
 
+        
+    /**
+     * getImage
+     *
+     * @return void
+     */
     public function getImage(){
         return $this->image;
     }
-
+    
+    /**
+     * setImage
+     *
+     * @param  mixed $url
+     * @return void
+     */
     public function setImage($url){
         $this->image = $url;
     }
-
+    
+    /**
+     * setDni
+     *
+     * @param  mixed $dni
+     * @return void
+     */
     public function setDni($dni){
         $this->dni = $dni;
     }
-
+    
+    /**
+     * getDni
+     *
+     * @return void
+     */
     public function getDni(){
         return $this->dni;
     }
-
+    
+    /**
+     * getUsername
+     *
+     * @return void
+     */
     public function getUsername(){
         return $this->username;
     }
-
+    
+    /**
+     * setUsername
+     *
+     * @param  mixed $username
+     * @return void
+     */
     public function setUsername($username){
             $this->username = $username;
         
     }
-
+    
+    /**
+     * getName
+     *
+     * @return void
+     */
     public function getName(){
         return $this->name;
     }
-
+    
+    /**
+     * setName
+     *
+     * @param  mixed $name
+     * @return void
+     */
     public function setName($name){
             $this->name = $name;
     }
-
+    
+    /**
+     * getSurname
+     *
+     * @return void
+     */
     public function getSurname(){
         return $this->surname;
     }
-
+    
+    /**
+     * setSurname
+     *
+     * @param  mixed $surname
+     * @return void
+     */
     public function setSurname($surname){
             $this->surname = $surname;
 
     }
-
+    
+    /**
+     * getEmail
+     *
+     * @return void
+     */
     public function getEmail(){
         return $this->email;
     }
-
+    
+    /**
+     * setEmail
+     *
+     * @param  mixed $email
+     * @return void
+     */
     public function setEmail($email){
             $this->email = $email;
 
     }
-
+    
+    /**
+     * isActive
+     *
+     * @return void
+     */
     public function isActive(){
         return $this->isActive>0;
     }
-
+    
+    /**
+     * getIsActive
+     *
+     * @return void
+     */
     public function getIsActive(){
         return $this->isActive>0;
     }
-
+    
+    /**
+     * setIsActive
+     *
+     * @param  mixed $isActive
+     * @return void
+     */
     public function setIsActive($isActive){
         $this->isActive = $isActive;
     }
-
+    
+    /**
+     * getId
+     *
+     * @return void
+     */
     public function getId(){
         return $this->id;
     }
-
+    
+    /**
+     * getPassword
+     *
+     * @return void
+     */
     public function getPassword(){
         return "";
     }
-
+    
+    /**
+     * validateInDB
+     *
+     * @param  mixed $dni
+     * @param  mixed $password
+     * @return void
+     */
     public static function validateInDB($dni,$password){
         $dni = filter_var($dni,FILTER_SANITIZE_STRING);
         $password = filter_var($password,FILTER_SANITIZE_STRING);
@@ -119,7 +233,12 @@ class User extends DataBaseModel{
         return $user;
     }
 
-    
+        
+    /**
+     * validDni
+     *
+     * @return void
+     */
     protected function validDni(){
         
         $validationTable = "TRWAGMYFPDXBNJZSQVHLCKE";
@@ -142,7 +261,12 @@ class User extends DataBaseModel{
 
         return $message;
     }
-
+    
+    /**
+     * validUsername
+     *
+     * @return void
+     */
     protected function validUsername(){
         $message = null;
         if( !preg_match("/^[a-z0-9]{"
@@ -153,7 +277,12 @@ class User extends DataBaseModel{
 
         return $message;
     }
-
+    
+    /**
+     * validName
+     *
+     * @return void
+     */
     protected function validName(){
         $message = null;
         if( !preg_match("/^[a-z ]{"
@@ -164,7 +293,12 @@ class User extends DataBaseModel{
 
         return $message;
     }
-
+    
+    /**
+     * validSurname
+     *
+     * @return void
+     */
     protected function validSurname(){
         $message = null;
         if( !preg_match("/^[a-z ]{"
@@ -175,7 +309,12 @@ class User extends DataBaseModel{
 
         return $message;
     }
-
+    
+    /**
+     * validEmail
+     *
+     * @return void
+     */
     protected function validEmail(){
         $message = null;
         if( !preg_match("/^[a-z0-9]{"
@@ -188,7 +327,12 @@ class User extends DataBaseModel{
 
         return $message;
     }
-
+    
+    /**
+     * validPassword
+     *
+     * @return void
+     */
     protected function validPassword(){
         $message = null;
         /*
@@ -200,42 +344,88 @@ class User extends DataBaseModel{
 
         return $message;
     }
-
+    
+    /**
+     * validImage
+     *
+     * @return void
+     */
     protected function validImage(){
         return null;
     }
-
+    
+    /**
+     * validIsActive
+     *
+     * @return void
+     */
     protected function validIsActive(){
         return null;
     }
-
+    
+    /**
+     * listAll
+     *
+     * @return void
+     */
     public static function listAll(){
         return DataBase::getAll(get_class());
     }
-
+    
+    /**
+     * listAllActive
+     *
+     * @param  mixed $start
+     * @param  mixed $numRegisters
+     * @return void
+     */
     public static function listAllActive($start,$numRegisters){
         
         return DataBase::getRowsByParameterPage(get_called_class(),["isActive" => 1],$start,$numRegisters);
     }
-
+    
+    /**
+     * pagesActive
+     *
+     * @param  mixed $itemsPerPage
+     * @return void
+     */
     public static function pagesActive($itemsPerPage){
         $num = DataBase::getNumberOfRowsByParameters(get_class(),["isActive" => 1]);
         $pages =  ceil($num/$itemsPerPage);
         return $pages;
     }
-
+    
+    /**
+     * pagesUnactive
+     *
+     * @param  mixed $itemsPerPage
+     * @return void
+     */
     public static function pagesUnactive($itemsPerPage){
         $num = DataBase::getNumberOfRowsByParameters(get_class(),["isActive" => 0]);
         $pages =  ceil($num/$itemsPerPage);
 
         return $pages;
     }
-
+    
+    /**
+     * listAllUnactive
+     *
+     * @param  mixed $start
+     * @param  mixed $numRegisters
+     * @return void
+     */
     public static function listAllUnactive($start,$numRegisters){
         $numPages = DataBase::getNumberOfRowsByParameters(get_class(),["isActive" => 1]);
         return DataBase::getRowsByParameterPage(get_called_class(),["isActive" => 0],$start,$numRegisters);
     }
-
+    
+    /**
+     * getWidths
+     *
+     * @return void
+     */
     public static function getWidths(){
         $widths = [
                "dni" => 20,
@@ -248,7 +438,13 @@ class User extends DataBaseModel{
 
         return $widths;
     }
-
+    
+    /**
+     * getVars
+     *
+     * @param  mixed $sensitiveInformation
+     * @return void
+     */
     public static function getVars($sensitiveInformation=true){
         $vars = parent::getVars();
 
